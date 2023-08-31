@@ -1,0 +1,84 @@
+@import url("https://fonts.googleapis.com/css2?family=Prompt:wght@400;500&display=swap");
+
+.cardContent {
+  font-family: "Prompt", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 24vmax;
+  height: 30rem;
+  padding: 2rem;
+  border: 3px solid #000;
+  border-radius: 0;
+  text-align: center;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(16.8px);
+  font-weight: bold;
+}
+
+.cardContent:hover {
+  transition: 0.3s all ease-in-out;
+  box-shadow: 15px 15px 0 -2.5px #fff, 15px 15px 0 0 #000;
+}
+
+.cardContent .image {
+  max-width: 100%;
+  height: auto;
+  /* margin-bottom: 2rem; */
+  filter: drop-shadow(0.6rem 0.8rem 0.8rem rgba(113, 113, 113, 0.735));
+  transition: transform 0.4s ease-in-out, filter 0.4s ease-in-out;
+}
+
+.cardContent:hover .image {
+  filter: drop-shadow(0.2rem 0.3rem 0.5rem rgba(56, 56, 56, 0.547));
+  transform: scale(1.15);
+  transition: transform 0.4s ease-in-out, filter 0.4s ease-in-out;
+}
+
+.cardContent:hover .button {
+  background-color: hsl(0, 0%, 0%);
+  color: hsl(0, 0%, 100%);
+  transition: transform 0.4s ease-in-out;
+}
+
+.button {
+  background: none;
+  padding: 0.5rem;
+  font-family: inherit;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: 2px solid black;
+}
+
+.text {
+  font-size: 1.2vmax;
+  margin-top: -1.5rem;
+}
+
+.date {
+  font-size: 1.5vmax;
+  text-transform: uppercase;
+}
+
+.color {
+  font-size: 1.1vmax;
+  margin-top: 0.5rem;
+}
+
+@media only screen and (max-width: 500px) {
+  .cardContent {
+    height: 20rem;
+    padding: 1rem;
+  }
+
+  .button {
+    padding: 0.2rem;
+    font-size: 0.8rem;
+  }
+
+  .text {
+    margin-top: 0;
+  }
+}
