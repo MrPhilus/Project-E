@@ -1,53 +1,99 @@
-import styles from "./upcoming.module.css";
-import { useEffect, useState } from "react";
+import style from "./upcoming.module.css";
+import { useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
+import { Element } from "react-scroll";
+import { KicksContext } from "../../context/KicksContextProvider";
+
 import apiData from "../../../api.json";
-import ProductCard from "../../components/NavBar/ProductCard";
+import ProductCard from "../../components/ProductCard";
 
 const Upcoming = () => {
-  const [sneakerData, setSneakerData] = useState([]);
+  const {
+    sneakerData,
+    setSneakerData,
+    numProductsToShow,
+    setNumProductsToShow,
+  } = useContext(KicksContext);
+
+  const productsToAdd = 3;
+
+  const loadMoreProducts = () => {
+    setNumProductsToShow(numProductsToShow + productsToAdd);
+  };
+
+  const filterAndSetSneakerData = () => {
+    const filteredSneakerData = apiData.sneakers
+      .filter((sneaker) => {
+        const releaseYear = new Date(sneaker.release_date).getFullYear();
+        return releaseYear >= 2018;
+      })
+      .sort((a, b) => new Date(a.release_date) - new Date(b.release_date))
+      .slice(0, numProductsToShow);
+
+    setSneakerData(filteredSneakerData);
+  };
+
+  // Helper function to format the release date
+  function formatReleaseDate(releaseDate) {
+    return new Date(releaseDate).toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+    });
+  }
+
+  function formattedPrice(price) {
+    return `$${price / 100}`;
+  }
 
   useEffect(() => {
-    if (apiData.sneakers && apiData.sneakers.length > 0) {
-      const filteredSneakerData = apiData.sneakers
-        .filter((sneaker) => {
-          const releaseYear = new Date(sneaker.release_date).getFullYear();
-          return releaseYear >= 2018;
-        })
-        .sort((a, b) => new Date(a.release_date) - new Date(b.release_date))
-        .slice(0, 9);
-      console.log(filteredSneakerData);
-      setSneakerData(filteredSneakerData);
-    }
-  }, []);
+    filterAndSetSneakerData();
+  }, [numProductsToShow]); // Update whenever numProductsToShow changes
 
   return (
-    <div className={styles.mainContainer}>
-      <div className={styles.sneakerList}>
+    <div className={style.mainContainer}>
+      <Element name="sneakerList" className={style.sneakerList}>
         {sneakerData.length > 0 ? (
-          sneakerData.map((sneaker, index) => (
-            <ProductCard
-              key={index}
-              buttonText="Notify Me"
-              shoeColor={sneaker.details}
-              shoeName={sneaker.name}
-              imgSrc={sneaker.grid_picture_url}
-              releaseDate={new Date(sneaker.release_date).toLocaleDateString(
-                "en-US",
-                {
-                  month: "long",
-                  day: "numeric",
-                }
-              )}
-            />
-          ))
+          sneakerData.map((sneaker, index) => {
+            const formattedReleaseDate = formatReleaseDate(
+              sneaker.release_date
+            );
+
+            const formattedPriceValue = formattedPrice(
+              sneaker.retail_price_cents
+            );
+
+            return (
+              <div key={index} className={`${style.productCard}`}>
+                <Link
+                  style={{ color: "black" }}
+                  to={`/details`}
+                  state={{ sneaker }}
+                >
+                  <ProductCard
+                    buttonText="Pre-Order"
+                    shoeColor={sneaker.details}
+                    price={formattedPriceValue}
+                    shoeName={sneaker.name}
+                    imgSrc={sneaker.grid_picture_url}
+                    releaseDate={formattedReleaseDate}
+                  />
+                </Link>
+              </div>
+            );
+          })
         ) : (
-          <div className={styles.loader}>
-            <span className={styles.bar}></span>
-            <span className={styles.bar}></span>
-            <span className={styles.bar}></span>
+          <div className={style.loader}>
+            <span className={style.bar}></span>
+            <span className={style.bar}></span>
+            <span className={style.bar}></span>
           </div>
         )}
-      </div>
+      </Element>
+      {numProductsToShow < apiData.sneakers.length && (
+        <div className={style.loadMoreButton}>
+          <button onClick={loadMoreProducts}>Load More</button>
+        </div>
+      )}
     </div>
   );
 };

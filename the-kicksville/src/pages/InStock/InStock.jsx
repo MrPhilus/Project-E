@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unescaped-entities */
-import ProductCard from "../../components/NavBar/ProductCard";
+import ProductCard from "../../components/ProductCard";
 import styles from "../InStock/instock.module.css";
 import { useState, useEffect } from "react";
 

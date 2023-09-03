@@ -25,7 +25,6 @@
 .cardContent .image {
   max-width: 100%;
   height: auto;
-  /* margin-bottom: 2rem; */
   filter: drop-shadow(0.6rem 0.8rem 0.8rem rgba(113, 113, 113, 0.735));
   transition: transform 0.4s ease-in-out, filter 0.4s ease-in-out;
 }
@@ -63,14 +62,28 @@
 }
 
 .color {
-  font-size: 1.1vmax;
+  font-size: 1vmax;
   margin-top: 0.5rem;
+}
+
+.bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.8rem;
+  height: 100%;
+  gap: 0.5rem;
+  justify-content: space-between;
 }
 
 @media only screen and (max-width: 500px) {
   .cardContent {
-    height: 20rem;
+    height: 40vmax;
     padding: 1rem;
+  }
+
+  .bottom {
+    padding: 0.2rem;
   }
 
   .button {
@@ -80,5 +93,10 @@
 
   .text {
     margin-top: 0;
+    font-size: 1.4vmax;
+  }
+
+  .color {
+    font-size: 1.2vmax;
   }
 }

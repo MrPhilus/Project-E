@@ -8,6 +8,8 @@ const ProductCard = ({
   shoeName,
   imgSrc,
   releaseDate,
+  price,
+  onClick,
 }) => {
   return (
     <div className={style.card}>
@@ -16,8 +18,12 @@ const ProductCard = ({
         <img className={style.image} src={imgSrc} alt="" />
         <p className={style.text}>{shoeName}</p>
         <p className={style.color}>{shoeColor}</p>
-        <br />
-        <button className={style.button}>{buttonText}</button>
+        <div className={style.bottom}>
+          <span className={style.price}>{price}</span>
+          <button onClick={onClick} className={style.button}>
+            {buttonText}
+          </button>
+        </div>
       </div>
     </div>
   );
