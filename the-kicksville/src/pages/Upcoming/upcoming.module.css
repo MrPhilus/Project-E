@@ -8,10 +8,11 @@
   padding: 2rem;
 }
 
-/* .sneakerList {
+.sneakerList {
   display: grid;
-  align-items: center;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  /* align-items: center; */
+  /* justify-content: space-evenly; */
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
   column-gap: 48px;
   row-gap: 120px;
   place-items: center;
@@ -19,14 +20,12 @@
   padding-top: 4rem;
   padding-left: 4rem;
   padding-right: 4rem;
-} */
-.sneakerList {
+}
+/* .sneakerList {
   display: flex;
   flex-wrap: wrap;
   gap: 50px;
-  /* overflow-y: auto;
-  scroll-snap-type: y mandatory; */
-}
+} */
 
 .productCard {
   /* flex: 0 0 auto;

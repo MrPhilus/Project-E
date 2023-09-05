@@ -1,15 +1,16 @@
 /* eslint-disable react/prop-types */
 // import React from "react";
+import CustomButton from "../CustomButton";
 import style from "./ProductCard.module.css";
 
 const ProductCard = ({
-  buttonText,
+  // buttonText,
   shoeColor,
   shoeName,
   imgSrc,
   releaseDate,
   price,
-  onClick,
+  // onClick,
 }) => {
   return (
     <div className={style.card}>
@@ -20,9 +21,13 @@ const ProductCard = ({
         <p className={style.color}>{shoeColor}</p>
         <div className={style.bottom}>
           <span className={style.price}>{price}</span>
-          <button onClick={onClick} className={style.button}>
+          {/* <button onClick={onClick} className={style.button}>
             {buttonText}
-          </button>
+          </button> */}
+          <CustomButton
+            containerStyle={style.button}
+            buttonText={"Pre-Order"}
+          />
         </div>
       </div>
     </div>
