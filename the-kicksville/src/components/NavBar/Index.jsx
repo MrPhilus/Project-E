@@ -58,7 +58,7 @@ const NavBar = () => {
 
       {/* conditionally rendering the drop-down menu for mobile */}
       {menuOpen && (
-        <div className={styles.mobileMenu} onClick={closeMenu}>
+        <nav className={styles.mobileMenu} onClick={closeMenu}>
           <Link to="/" className={styles.mobileNavLink}>
             In Stock
           </Link>
@@ -68,7 +68,7 @@ const NavBar = () => {
           <Link to="/contactus" className={styles.mobileNavLink}>
             Contact Us
           </Link>
-        </div>
+        </nav>
       )}
     </div>
   );

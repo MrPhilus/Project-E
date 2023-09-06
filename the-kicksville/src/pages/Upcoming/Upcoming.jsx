@@ -130,6 +130,7 @@ const Upcoming = () => {
       .slice(0, numProductsToShow);
 
     setSneakerData(filteredSneakerData);
+    // console.log("hii");
   };
 
   // Helper function to format the release date
@@ -155,7 +156,10 @@ const Upcoming = () => {
   useEffect(() => {
     const element = document.getElementById(`sneaker-${sneakerId}`);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "center" });
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
     }
 
     // Check sessionStorage for existing numProductsToShow
@@ -196,7 +200,14 @@ const Upcoming = () => {
                   style={{ color: "black" }}
                   to={`/details/${sneaker.id}`}
                   // state={{ sneaker }}
-                  onClick={() => setSelectedSneaker(sneaker)}
+                  onClick={() => {
+                    sessionStorage.setItem(
+                      "shoeState",
+                      JSON.stringify(sneaker)
+                    );
+
+                    setSelectedSneaker(sneaker);
+                  }}
                 >
                   <ProductCard
                     buttonText="Pre-Order"

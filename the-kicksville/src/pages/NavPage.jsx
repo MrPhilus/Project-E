@@ -1,17 +1,38 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import NavBar from "../components/NavBar/Index";
-// import Footer from "../components/Footer";
+import { useEffect, useContext } from "react";
+import { KicksContext } from "../context/KicksContextProvider";
+
+import Footer from "../components/Footer";
 
 const NavPage = () => {
+  const { setSelectedSneaker, selectedSneaker } = useContext(KicksContext);
+  // const navigate = useNavigate();
+  const { pathname } = useLocation();
+  useEffect(() => {
+    // Save state before refresh
+    const shoe = sessionStorage.getItem("shoeState") || JSON.stringify({});
+    const parsedShoe = JSON.parse(shoe);
+    console.log(parsedShoe);
+
+    //sets item on refresh
+    setSelectedSneaker((prev) => {
+      console.log(prev);
+      return parsedShoe;
+    });
+  }, []);
+
   return (
     <div>
       <nav>
         <NavBar />
       </nav>
-      <Outlet />
-      {/* <div>
+      {pathname.includes("details") &&
+        Object.keys(selectedSneaker).length > 0 && <Outlet />}
+      {!pathname.includes("details") && <Outlet />}
+      <div>
         <Footer />
-      </div> */}
+      </div>
     </div>
   );
 };

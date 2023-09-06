@@ -28,8 +28,8 @@ function App() {
     <div className="App">
       <Router>
         <Routes>
-          <Route path="/" element={<NavPage />}>
-            <Route index element={<InStock />} />
+          <Route element={<NavPage />}>
+            <Route path="/" element={<InStock />} />
             <Route path="/upcoming" element={<Upcoming />} />
             <Route path="/upcoming/:sneakerId" element={<Upcoming />} />
             <Route path="/details/:sneakerId" element={<ProductDetails />} />

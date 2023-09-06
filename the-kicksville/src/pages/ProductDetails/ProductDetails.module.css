@@ -10,9 +10,6 @@
   flex-wrap: wrap;
 }
 
-.icon {
-  /* outline: 1px solid red; */
-}
 .aside {
   display: flex;
   flex-direction: column;
@@ -111,4 +108,107 @@
 summary:hover .arrowDown {
   display: block;
   animation: bounce 2.5s infinite;
+}
+
+.mobileContainer {
+  /* visibility: hidden; */
+  display: none;
+}
+
+@media only screen and (max-width: 820px) {
+  .container {
+    display: none;
+  }
+
+  .mobileContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 2rem;
+    padding-top: 5rem;
+    font-family: "Prompt", sans-serif;
+    height: 100vh;
+    outline: 1px solid red;
+  }
+
+  .asideMobi {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0.5rem;
+    width: 100%;
+    height: fit-content;
+    outline: 1px solid black;
+  }
+
+  .detailsMobi {
+    padding: 1rem;
+    width: 100%;
+    height: fit-content;
+    outline: 1px solid blue;
+  }
+
+  .sizeRangeMobi {
+    width: 100%;
+    /* display: flex; */
+    height: fit-content;
+    justify-content: center;
+    align-items: center;
+    outline: 1px solid green;
+  }
+
+  .storyMobi {
+    /* display: flex; */
+    align-items: center;
+    justify-content: space-between;
+    /* flex-wrap: wrap; */
+    /* width: 100%; */
+    /* height: 100%; */
+    gap: 1rem;
+  }
+
+  .buttonMobi {
+    width: 100%;
+  }
+  .imageMobi {
+    width: 100%;
+    /* margin-left: 7rem; */
+    filter: drop-shadow(0.2rem 0.3rem 0.5rem rgba(154, 154, 154, 0.547));
+  }
+
+  .writeUpMobi {
+    padding: 1rem;
+    font-size: 1.1vmax;
+    font-weight: 500;
+  }
+
+  .listBoxMobi {
+    display: grid;
+    width: 100%;
+    min-width: 300px;
+    gap: 0.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(55px, 1fr));
+  }
+
+  .sizesMobi {
+    padding: 0.3rem;
+  }
+  .sizesMobi:focus {
+    background-color: rgb(78, 78, 78);
+    color: white;
+  }
+
+  .dropDownMobi {
+    width: 100%;
+    cursor: pointer;
+  }
+  .dropDownMobi > summary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
 }
