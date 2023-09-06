@@ -3,15 +3,7 @@
 import CustomButton from "../CustomButton";
 import style from "./ProductCard.module.css";
 
-const ProductCard = ({
-  // buttonText,
-  shoeColor,
-  shoeName,
-  imgSrc,
-  releaseDate,
-  price,
-  // onClick,
-}) => {
+const ProductCard = ({ shoeColor, shoeName, imgSrc, releaseDate, price }) => {
   return (
     <div className={style.card}>
       <div className={style.cardContent}>
@@ -21,9 +13,6 @@ const ProductCard = ({
         <p className={style.color}>{shoeColor}</p>
         <div className={style.bottom}>
           <span className={style.price}>{price}</span>
-          {/* <button onClick={onClick} className={style.button}>
-            {buttonText}
-          </button> */}
           <CustomButton
             containerStyle={style.button}
             buttonText={"Pre-Order"}

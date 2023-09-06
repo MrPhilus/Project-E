@@ -1,9 +1,10 @@
 .container {
   display: flex;
   align-items: center;
-  justify-content: center;
-  place-items: center;
+  justify-content: space-around;
+  /* place-items: center; */
   padding: 2rem;
+  padding-top: 7rem;
   height: 100vh;
   font-family: "Prompt", sans-serif;
   flex-wrap: wrap;
@@ -27,9 +28,17 @@
   /* flex-direction: column; */
   /* align-items: center; */
   /* justify-content: space-around; */
-  /* outline: 1px solid black; */
+  /* outline: 1px solid red; */
   padding: 1rem;
-  height: 50%;
+  width: 35%;
+  height: 100%;
+}
+
+.sizeRange {
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .story {
@@ -40,29 +49,27 @@
   width: 100%;
   height: 100%;
   gap: 1rem;
-  /* outline: 1px solid green; */
 }
 
 .button {
   width: 100%;
 }
 .image {
-  /* width: 28rem; */
-  /* outline: 1px solid green; */
   filter: drop-shadow(0.2rem 0.3rem 0.5rem rgba(154, 154, 154, 0.547));
 }
 
 .writeUp {
-  /* width: 80%; */
+  padding: 1rem;
+  font-size: 1.1vmax;
+  font-weight: 500;
 }
 
 .listBox {
   display: grid;
-  width: 50%;
+  width: 100%;
   min-width: 300px;
-  gap: 0.2rem;
+  gap: 0.5rem;
   grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
-  /* outline: 1px solid red; */
 }
 
 .sizes {
@@ -71,4 +78,37 @@
 .sizes:focus {
   background-color: rgb(78, 78, 78);
   color: white;
+}
+
+.dropDown {
+  width: 100%;
+  cursor: pointer;
+}
+.dropDown > summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-3px);
+  }
+  60% {
+    transform: translateY(-1px);
+  }
+}
+
+summary:hover .arrowDown {
+  display: block;
+  animation: bounce 2.5s infinite;
 }

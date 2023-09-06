@@ -5,32 +5,33 @@
   font-family: "Prompt", sans-serif;
   font-weight: 600;
   height: 100vh;
-  padding: 2rem;
+  /* padding-top: 8rem; */
 }
 
 .sneakerList {
   display: grid;
-  /* align-items: center; */
-  /* justify-content: space-evenly; */
-  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-  column-gap: 48px;
-  row-gap: 120px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  /* column-gap: 48px;
+  row-gap: 250px; */
+  gap: 8rem;
   place-items: center;
-  padding-bottom: 4rem;
-  padding-top: 4rem;
+  /* padding-bottom: 8rem; */
+  padding-top: 8.5rem;
   padding-left: 4rem;
   padding-right: 4rem;
+  outline: 1px solid red;
 }
 /* .sneakerList {
   display: flex;
   flex-wrap: wrap;
   gap: 50px;
+  padding-top: 4rem;
 } */
 
 .productCard {
   /* flex: 0 0 auto;
   scroll-snap-align: start; */
-  padding: 2rem;
+  /* padding: 2rem; */
 }
 
 .sneakerInfo {
@@ -134,11 +135,16 @@
 @media only screen and (max-width: 500px) {
   .sneakerList {
     padding: 1rem;
-    column-gap: 28px;
-    row-gap: 5px;
+    padding-top: 5rem;
+    /* column-gap: 28px; */
+    row-gap: 50px;
   }
 
   .productCard {
-    padding: 3rem;
+    /* padding: 3rem; */
+    /* display: grid; */
+    /* width: 100%; */
+    /* place-items: center; */
+    /* outline: 1px solid red; */
   }
 }

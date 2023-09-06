@@ -8,6 +8,7 @@ const KicksContextProvider = ({ children }) => {
   const productsToAdd = 6;
 
   const [sneakerData, setSneakerData] = useState([]);
+  const [selectedSneaker, setSelectedSneaker] = useState(null);
   const [numProductsToShow, setNumProductsToShow] = useState(
     initialProductsToShow
   );
@@ -19,6 +20,8 @@ const KicksContextProvider = ({ children }) => {
     setNumProductsToShow,
     initialProductsToShow,
     productsToAdd,
+    selectedSneaker,
+    setSelectedSneaker,
   };
 
   return (

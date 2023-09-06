@@ -1,27 +1,30 @@
 import CustomButton from "../../components/CustomButton";
 import style from "./ProductDetails.module.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { useContext } from "react";
+import { KicksContext } from "../../context/KicksContextProvider";
+import { BiChevronsDown } from "react-icons/bi";
 
 const ProductDetails = () => {
   const navigate = useNavigate();
-  const { state } = useLocation(); //  access route state
-  const { sneaker } = state || {}; //  unpack the item from state
-
-  console.log(sneaker);
-  // const { sneakerData, setSneakerData } = useContext(KicksContext);
+  const { selectedSneaker } = useContext(KicksContext);
 
   const handleBackClick = () => {
-    navigate("/upcoming"); // Navigate back to /upcoming
+    navigate(`/upcoming/${selectedSneaker.id}`);
   };
 
   function formattedPrice(price) {
     return `$${price / 100}`;
   }
-  const formattedPriceValue = formattedPrice(sneaker.retail_price_cents);
-  const sortedSizes = sneaker.size_range.sort((a, b) => a - b);
 
-  return sneaker ? (
+  const formattedPriceValue = formattedPrice(
+    selectedSneaker.retail_price_cents
+  );
+
+  const sortedSizes = selectedSneaker.size_range.sort((a, b) => a - b);
+
+  return selectedSneaker ? (
     <div className={style.container}>
       <div className={style.aside}>
         <div className={style.icon}>
@@ -34,42 +37,50 @@ const ProductDetails = () => {
           />
         </div>
         <section>
-          <img className={style.image} src={sneaker.grid_picture_url} alt="" />
+          <img
+            className={style.image}
+            src={selectedSneaker.grid_picture_url}
+            alt=""
+          />
         </section>
       </div>
 
       <div className={style.details}>
         <section className={style.story}>
           <div>
-            <h2>{sneaker.name}</h2>
-            <h3>{sneaker.details}</h3>
-            <h4>{formattedPriceValue}</h4>
-            <p className={style.writeUp}>{sneaker.story_html}</p>
+            <h2>{selectedSneaker.name}</h2>
+            <h3>{selectedSneaker.details}</h3>
+            <h3>{formattedPriceValue}</h3>
+            <p className={style.writeUp}>{selectedSneaker.story_html}</p>
             <CustomButton
               containerStyle={style.button}
               buttonText={"add to cart"}
             />
           </div>
-
-          <div className={style.sizeRange}>
-            <h3>Available Sizes:</h3>
-            <ul className={style.listBox}>
-              {sortedSizes.map((size, index) => (
-                <CustomButton
-                  containerStyle={style.sizes}
-                  key={index}
-                  buttonText={size}
-                />
-              ))}
-            </ul>
-          </div>
         </section>
+      </div>
+
+      <div className={style.sizeRange}>
+        <details className={style.dropDown}>
+          <summary>
+            <h3>Available Sizes</h3>{" "}
+            <BiChevronsDown className={style.arrowDown} size={20} />
+          </summary>
+          <ul className={style.listBox}>
+            {sortedSizes.map((size, index) => (
+              <CustomButton
+                containerStyle={style.sizes}
+                key={index}
+                buttonText={size}
+              />
+            ))}
+          </ul>
+        </details>
       </div>
     </div>
   ) : (
     <div>
       <CustomButton onClick={handleBackClick} />
-
       <h2>Not Found</h2>
     </div>
   );
