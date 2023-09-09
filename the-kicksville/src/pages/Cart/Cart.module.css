@@ -1,0 +1,11 @@
+.container {
+  /* padding-top: 10rem; */
+  font-family: "Prompt", sans-serif;
+  padding: 2rem;
+  height: 100vh;
+  outline: 1px solid red;
+}
+
+.content {
+  padding-top: 4rem;
+}

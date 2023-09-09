@@ -1,4 +1,4 @@
-import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import NavBar from "../components/NavBar/Index";
 import { useEffect, useContext } from "react";
 import { KicksContext } from "../context/KicksContextProvider";
@@ -7,7 +7,6 @@ import Footer from "../components/Footer";
 
 const NavPage = () => {
   const { setSelectedSneaker, selectedSneaker } = useContext(KicksContext);
-  // const navigate = useNavigate();
   const { pathname } = useLocation();
   useEffect(() => {
     // Save state before refresh

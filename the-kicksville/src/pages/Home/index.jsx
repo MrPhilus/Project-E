@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unescaped-entities */
 import ProductCard from "../../components/ProductCard";
-import styles from "../InStock/instock.module.css";
+import styles from "./home.module.css";
 import { useState, useEffect } from "react";
 
-const InStock = () => {
+const Home = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const slideShow = [
     {
@@ -45,10 +45,8 @@ const InStock = () => {
           key={index}
           style={{ display: index === currentIndex ? "block" : "none" }}
         >
-          {/* Pass the sneaker information as props to ProductCard */}
           <ProductCard
             buttonText="Notify Me"
-            shoeColor="Pure Platinum/White/University Red"
             shoeName="Nike Air Griffey Max 1"
             imgSrc={item.pic}
             releaseDate="May 2024"
@@ -58,4 +56,4 @@ const InStock = () => {
     </div>
   );
 };
-export default InStock;
+export default Home;

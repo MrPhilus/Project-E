@@ -1,9 +1,9 @@
-import style from "./Footer.module.css";
+import styles from "./Footer.module.css";
 
 const Footer = () => {
   return (
     <footer>
-      <div className={style.container}>
+      <div className={styles.container}>
         <section>
           <ul>
             <li>Find A Store</li>

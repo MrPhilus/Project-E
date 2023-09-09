@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
-import style from "./CustomButton.module.css";
+import styles from "./CustomButton.module.css";
 
 const CustomButton = ({ onClick, containerStyle, buttonText }) => {
   return (
     <button
-      className={`${style.button} ${containerStyle && containerStyle}`}
+      className={`${styles.button} ${containerStyle && containerStyle}`}
       onClick={onClick}
     >
       {buttonText}

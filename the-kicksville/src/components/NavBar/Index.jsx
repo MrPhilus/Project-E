@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./NavBar.module.css";
+import { KicksContext } from "../../context/KicksContextProvider";
 
 //Resources
 import logo from "../../assets/images/kicks.png";
@@ -8,8 +9,8 @@ import { TiShoppingCart } from "react-icons/ti";
 import { BiChevronsDown } from "react-icons/bi";
 
 const NavBar = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const { menuOpen, setMenuOpen } = useContext(KicksContext);
 
   //controls the opening and closing of drop-down
   const toggleMenu = () => {
@@ -36,7 +37,7 @@ const NavBar = () => {
 
         <section className={styles.navLinks}>
           <Link to="/" className={styles.navLink}>
-            In Stock
+            Home
           </Link>
           <Link to="/upcoming" className={styles.navLink}>
             Upcoming
@@ -52,7 +53,9 @@ const NavBar = () => {
             size={30}
             onClick={toggleMenu}
           />
-          <TiShoppingCart size={30} />
+          <Link to="/cart" className={styles.navLink}>
+            <span></span> <TiShoppingCart size={30} />
+          </Link>
         </section>
       </nav>
 
@@ -60,7 +63,7 @@ const NavBar = () => {
       {menuOpen && (
         <nav className={styles.mobileMenu} onClick={closeMenu}>
           <Link to="/" className={styles.mobileNavLink}>
-            In Stock
+            Home
           </Link>
           <Link to="/upcoming" className={styles.mobileNavLink}>
             Upcoming
