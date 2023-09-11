@@ -1,11 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import styles from "./upcoming.module.css";
 import { useEffect, useContext } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 // import { Element } from "react-scroll";
 import { KicksContext } from "../../context/KicksContextProvider";
 
 import apiData from "../../../api.json";
 import ProductCard from "../../components/ProductCard";
+import CustomButton from "../../components/CustomButton";
 
 const Upcoming = () => {
   const {
@@ -15,20 +17,54 @@ const Upcoming = () => {
     setNumProductsToShow,
     productsToAdd,
     setSelectedSneaker,
-    formattedPriceValue,
+    searchQuery,
+    sortBy,
+    setSortBy,
   } = useContext(KicksContext);
 
   const { sneakerId } = useParams();
+  const navigate = useNavigate();
+
+  // const filterAndSetSneakerData = () => {
+  //   const filteredSneakerData = apiData.sneakers
+  //     .filter((sneaker) => {
+  //       const releaseYear = new Date(sneaker.release_date).getFullYear();
+  //       return (
+  //         releaseYear >= 2018 &&
+  //         sneaker.name.toLowerCase().includes(searchQuery.toLowerCase())
+  //       );
+  //     })
+  //     .sort((a, b) => new Date(a.release_date) - new Date(b.release_date))
+  //     .slice(0, numProductsToShow);
+
+  //   setSneakerData(filteredSneakerData);
+  // };
 
   const filterAndSetSneakerData = () => {
-    const filteredSneakerData = apiData.sneakers
-      .filter((sneaker) => {
-        const releaseYear = new Date(sneaker.release_date).getFullYear();
-        return releaseYear >= 2018;
-      })
-      .sort((a, b) => new Date(a.release_date) - new Date(b.release_date))
-      .slice(0, numProductsToShow);
+    let filteredSneakerData = apiData.sneakers.filter((sneaker) => {
+      const releaseYear = new Date(sneaker.release_date).getFullYear();
+      return (
+        releaseYear >= 2018 &&
+        sneaker.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    });
 
+    if (sortBy === "date") {
+      filteredSneakerData = filteredSneakerData.sort(
+        (a, b) => new Date(a.release_date) - new Date(b.release_date)
+      );
+    } else if (sortBy === "price") {
+      filteredSneakerData = filteredSneakerData.sort(
+        (a, b) => a.retail_price_cents - b.retail_price_cents
+      );
+    } else {
+      // Default sorting by date
+      filteredSneakerData = filteredSneakerData.sort(
+        (a, b) => new Date(a.release_date) - new Date(b.release_date)
+      );
+    }
+
+    filteredSneakerData = filteredSneakerData.slice(0, numProductsToShow);
     setSneakerData(filteredSneakerData);
   };
 
@@ -40,12 +76,23 @@ const Upcoming = () => {
     });
   }
 
+  function formattedPrice(price) {
+    return `$${price / 100}`;
+  }
+
+  const resetRoute = () => {
+    navigate("/upcoming"); // Navigate to the "Upcoming" route
+    setSelectedSneaker(""); // Clear the selected sneaker ID
+  };
+
   const loadMoreProducts = () => {
     const updatedNumProductsToShow = numProductsToShow + productsToAdd;
 
     // Store the updated values in sessionStorage
     sessionStorage.setItem("numProductsToShow", updatedNumProductsToShow);
     setNumProductsToShow(updatedNumProductsToShow);
+
+    resetRoute();
   };
 
   useEffect(() => {
@@ -70,25 +117,43 @@ const Upcoming = () => {
     }
 
     filterAndSetSneakerData();
-  }, [numProductsToShow, sneakerId]); // Update whenever numProductsToShow changes
+  }, [numProductsToShow, sneakerId, searchQuery, sortBy]);
 
   return (
     <div className={styles.mainContainer}>
-      {/* <div className={styles.filterToggle}>
-        <label>
-          <input
-            type="checkbox"
-            checked={filterCheapest}
-            onChange={toggleFilter}
+      {/* <section className={styles.filterBox}>
+        <label>Sort by:</label>
+        <select
+          name="filters"
+          id=""
+          value={sortBy}
+          onInput={(e) => setSortBy(e.target.value)}
+        >
+          <option value="date">Date</option>
+          <option value="price">Price</option>
+        </select>
+      </section> */}
+      <section className={styles.filterBox}>
+        <label>Sort by:</label>
+        <div className={styles.buttonContainer}>
+          <CustomButton buttonText={"Date"} onClick={() => setSortBy("date")} />
+
+          <CustomButton
+            buttonText={"Price"}
+            onClick={() => setSortBy("price")}
           />
-          Filter by Cheapest
-        </label>
-      </div> */}
+        </div>
+      </section>
+
       <div name="sneakerList" className={styles.sneakerList}>
         {sneakerData.length > 0 ? (
           sneakerData.map((sneaker, index) => {
             const formattedReleaseDate = formatReleaseDate(
               sneaker.release_date
+            );
+
+            const formattedPriceValue = formattedPrice(
+              sneaker.retail_price_cents
             );
 
             return (
@@ -129,7 +194,7 @@ const Upcoming = () => {
       </div>
       {numProductsToShow < apiData.sneakers.length && (
         <div className={styles.loadMoreButton}>
-          <button onClick={loadMoreProducts}>Load More</button>
+          <CustomButton onClick={loadMoreProducts} buttonText={"Load More"} />
         </div>
       )}
     </div>

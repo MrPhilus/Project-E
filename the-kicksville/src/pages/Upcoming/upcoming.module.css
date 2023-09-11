@@ -9,22 +9,31 @@
   /* padding-top: 8rem; */
 }
 
+/* .filterBox {
+  padding-top: 7rem;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+  top: 0;
+  outline: 1px solid red;
+} */
+
 .sneakerList {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   /* gap: 8rem; */
   row-gap: 8rem;
   column-gap: 8rem;
-  /* margin: 1rem; */
   place-items: center;
   padding-top: 8rem;
   padding-left: 4rem;
   padding-right: 4rem;
   padding-bottom: 8rem;
   /* height: 100vh; */
-  max-height: 100vh;
+  /* max-height: 100vh; */
   overflow-y: auto;
-  outline: 1px solid red;
+  background-color: #fff;
+  /* outline: 1px solid red; */
 }
 
 /* .sneakerList::-webkit-scrollbar {
@@ -95,9 +104,9 @@
 }
 
 .loadMoreButton {
-  padding: 0.5rem;
+  padding: 1rem;
   width: 100%;
-  outline: 1px solid green;
+  /* outline: 1px solid green; */
 }
 
 .text {
@@ -140,19 +149,36 @@
   }
 }
 
+.filterBox {
+  margin-top: -1rem;
+  position: relative;
+  bottom: -6.5rem;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* outline: 1px solid black; */
+}
+.filterBox label {
+  font-weight: 500;
+  font-style: italic;
+  padding: 0.5rem;
+}
+.filterBox select {
+  padding: 0.25rem;
+  border-radius: 4px;
+  border: 2px solid black;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 5px;
+}
+
 @media only screen and (max-width: 500px) {
   .sneakerList {
     padding: 1rem;
-    padding-top: 5rem;
-    /* column-gap: 28px; */
+    padding-top: 7rem;
     row-gap: 50px;
-  }
-
-  .productCard {
-    /* padding: 3rem; */
-    /* display: grid; */
-    /* width: 100%; */
-    /* place-items: center; */
-    /* outline: 1px solid red; */
   }
 }

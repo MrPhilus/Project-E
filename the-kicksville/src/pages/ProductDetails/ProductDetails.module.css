@@ -110,6 +110,28 @@ summary:hover .arrowDown {
   animation: bounce 2.5s infinite;
 }
 
+.sizeBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* outline: 1px solid red; */
+}
+.errorMsg {
+  color: red;
+  animation: error 0.5s ease-in-out 0s 1 normal forwards;
+}
+@keyframes error {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
 .mobileContainer {
   /* visibility: hidden; */
   display: none;
@@ -123,77 +145,65 @@ summary:hover .arrowDown {
   .mobileContainer {
     display: flex;
     flex-direction: column;
+    /* overflow-y: auto; */
     align-items: center;
     justify-content: space-evenly;
     padding: 2rem;
-    padding-top: 5rem;
+    margin-top: 1rem;
     font-family: "Prompt", sans-serif;
-    height: 100vh;
-    outline: 1px solid red;
   }
 
   .asideMobi {
     display: flex;
-    flex-direction: column;
     align-items: flex-start;
-    justify-content: center;
+    justify-content: space-between;
     padding: 0.5rem;
+    margin-top: 4rem;
     width: 100%;
-    height: fit-content;
-    outline: 1px solid black;
+  }
+
+  .backArrow {
+    cursor: pointer;
+    font-size: 3vmax;
   }
 
   .detailsMobi {
     padding: 1rem;
     width: 100%;
     height: fit-content;
-    outline: 1px solid blue;
   }
 
   .sizeRangeMobi {
     width: 100%;
-    /* display: flex; */
     height: fit-content;
-    justify-content: center;
-    align-items: center;
-    outline: 1px solid green;
-  }
-
-  .storyMobi {
-    /* display: flex; */
-    align-items: center;
-    justify-content: space-between;
-    /* flex-wrap: wrap; */
-    /* width: 100%; */
-    /* height: 100%; */
-    gap: 1rem;
   }
 
   .buttonMobi {
-    width: 100%;
+    width: 80%;
   }
   .imageMobi {
-    width: 100%;
-    /* margin-left: 7rem; */
+    max-width: 100%;
     filter: drop-shadow(0.2rem 0.3rem 0.5rem rgba(154, 154, 154, 0.547));
   }
 
   .writeUpMobi {
     padding: 1rem;
-    font-size: 1.1vmax;
+    font-size: 1.7vmax;
     font-weight: 500;
   }
 
   .listBoxMobi {
     display: grid;
     width: 100%;
-    min-width: 300px;
+    max-width: 20rem;
+    margin: auto;
     gap: 0.5rem;
-    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(55px, 1fr));
   }
 
   .sizesMobi {
     padding: 0.3rem;
+    font-size: 1.4vmax;
   }
   .sizesMobi:focus {
     background-color: rgb(78, 78, 78);

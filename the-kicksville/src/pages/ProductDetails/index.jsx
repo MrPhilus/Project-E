@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import CustomButton from "../../components/CustomButton";
 import styles from "./ProductDetails.module.css";
 import { useNavigate } from "react-router-dom";
@@ -16,15 +17,19 @@ const ProductDetails = () => {
     selectedSize,
     setSelectedSize,
     formattedPriceValue,
+    error,
+    setError,
   } = useContext(KicksContext);
 
   const handleBackClick = () => {
     navigate(`/upcoming/${selectedSneaker.id}`);
+    setError("");
   };
 
   const handleSizeSelect = (e) => {
     const selectedSizeValue = e.target.textContent;
     setSelectedSize(selectedSizeValue);
+    setError("");
   };
 
   const handleAddToCart = () => {
@@ -36,10 +41,13 @@ const ProductDetails = () => {
         price: formattedPriceValue,
       });
 
+      setSelectedSize("");
+      setError("");
+
       // You can also navigate to the cart page if needed
       navigate("/cart");
     } else {
-      alert("Please select a size before adding to cart.");
+      setError("Select A Size Before Adding To Cart");
     }
   };
 
@@ -51,7 +59,7 @@ const ProductDetails = () => {
       : [];
 
     setSizes(sortedSizes);
-    console.log(sortedSizes);
+    // console.log(sortedSizes);
   }, []);
 
   return selectedSneaker ? (
@@ -67,6 +75,7 @@ const ProductDetails = () => {
               onClick={handleBackClick}
             />
           </div>
+
           <section>
             <img
               className={styles.image}
@@ -75,6 +84,7 @@ const ProductDetails = () => {
             />
           </section>
         </div>
+
         <div className={styles.details}>
           <section className={styles.story}>
             <div>
@@ -90,47 +100,53 @@ const ProductDetails = () => {
             </div>
           </section>
         </div>
+
         <div className={styles.sizeRange}>
-          <details className={styles.dropDown}>
-            <summary>
-              <h3>Available Sizes</h3>{" "}
-              <BiChevronsDown className={styles.arrowDown} size={20} />
-            </summary>
-            <ul className={styles.listBox}>
-              {sizes.map((size, index) => (
-                <CustomButton
-                  containerStyle={styles.sizes}
-                  key={index}
-                  buttonText={size}
-                  onClick={handleSizeSelect}
-                />
-              ))}
-            </ul>
-          </details>
+          <div className={styles.sizeBox}>
+            {error && <span className={styles.errorMsg}>{error}</span>}
+            <details className={styles.dropDown}>
+              <summary>
+                <h3>Available Sizes</h3>{" "}
+                <BiChevronsDown className={styles.arrowDown} size={20} />
+              </summary>
+              <ul className={styles.listBox}>
+                {sizes.map((size, index) => (
+                  <CustomButton
+                    containerStyle={styles.sizes}
+                    key={index}
+                    buttonText={size}
+                    onClick={handleSizeSelect}
+                  />
+                ))}
+              </ul>
+            </details>
+          </div>
         </div>
       </div>
 
       {/* mobile layout */}
       <div className={styles.mobileContainer}>
         <div className={styles.asideMobi}>
-          <div>
+          <div className={styles.back}>
             <IoMdArrowRoundBack
-              styles={{
-                fontSize: "3.5vmax",
-                cursor: "pointer",
-              }}
+              className={styles.backArrow}
               onClick={handleBackClick}
             />
           </div>
+
           <section>
-            <h2>{selectedSneaker.name}</h2>
-            <h3>{selectedSneaker.details}</h3>
-            <h3>{formattedPriceValue}</h3>
+            <h2 style={{ fontSize: "2vmax" }}>{selectedSneaker.name}</h2>
+            <h3 style={{ fontSize: "1.6vmax", fontStyle: "italic" }}>
+              {selectedSneaker.details}
+            </h3>
+            <h3 style={{ fontSize: "2vmax" }}>{formattedPriceValue}</h3>
           </section>
+
+          <div></div>
         </div>
 
         <div className={styles.detailsMobi}>
-          <section className={styles.storyMobi}>
+          <section className={styles.sizeRangeMobi}>
             <div>
               <img
                 className={styles.imageMobi}
@@ -138,27 +154,34 @@ const ProductDetails = () => {
                 alt=""
               />
 
-              <details open className={styles.dropDownMobi}>
-                <summary>
-                  <h3>Available Sizes</h3>{" "}
-                  <BiChevronsDown className={styles.arrowDownMobi} size={20} />
-                </summary>
-                <ul className={styles.listBoxMobi}>
-                  {sizes.map((size, index) => (
-                    <CustomButton
-                      containerStyle={styles.sizesMobi}
-                      key={index}
-                      buttonText={size}
-                      onClick={handleSizeSelect}
+              <div>
+                {error && <span className={styles.errorMsg}>{error}</span>}
+                <details open className={styles.dropDownMobi}>
+                  <summary>
+                    <h3>Available Sizes</h3>{" "}
+                    <BiChevronsDown
+                      className={styles.arrowDownMobi}
+                      size={20}
                     />
-                  ))}
-                </ul>
-              </details>
+                  </summary>
+
+                  <ul className={styles.listBoxMobi}>
+                    {sizes.map((size, index) => (
+                      <CustomButton
+                        containerStyle={styles.sizesMobi}
+                        key={index}
+                        buttonText={size}
+                        onClick={handleSizeSelect}
+                      />
+                    ))}
+                  </ul>
+                </details>
+              </div>
             </div>
           </section>
         </div>
 
-        <div className={styles.sizeRangeMobi}>
+        <div className={styles.storyMobi}>
           <p className={styles.writeUpMobi}>{selectedSneaker.story_html}</p>
           <CustomButton
             containerStyle={styles.buttonMobi}

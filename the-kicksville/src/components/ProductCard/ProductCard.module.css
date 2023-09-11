@@ -5,10 +5,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
   width: 24vmax;
-  height: 30rem;
-  padding: 2rem;
+  height: 26rem;
+  padding: 3rem;
   border: 3px solid #000;
   border-radius: 0;
   text-align: center;

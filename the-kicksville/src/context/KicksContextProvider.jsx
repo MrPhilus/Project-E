@@ -21,6 +21,11 @@ const KicksContextProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [selectedSize, setSelectedSize] = useState(0);
 
+  const [error, setError] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const [sortBy, setSortBy] = useState("");
+
   const addToCart = (product) => {
     setCartItems([...cartItems, product]);
   };
@@ -46,6 +51,12 @@ const KicksContextProvider = ({ children }) => {
     selectedSize,
     setSelectedSize,
     formattedPriceValue,
+    error,
+    setError,
+    searchQuery,
+    setSearchQuery,
+    sortBy,
+    setSortBy,
   };
 
   return (

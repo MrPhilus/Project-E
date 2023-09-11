@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import styles from "./NavBar.module.css";
 import { KicksContext } from "../../context/KicksContextProvider";
 
@@ -10,7 +10,9 @@ import { BiChevronsDown } from "react-icons/bi";
 
 const NavBar = () => {
   const navigate = useNavigate();
-  const { menuOpen, setMenuOpen } = useContext(KicksContext);
+  const location = useLocation();
+  const { menuOpen, setMenuOpen, cartItems, searchQuery, setSearchQuery } =
+    useContext(KicksContext);
 
   //controls the opening and closing of drop-down
   const toggleMenu = () => {
@@ -20,6 +22,10 @@ const NavBar = () => {
   //closes the drop-down when a link is clicked
   const closeMenu = () => {
     setMenuOpen(false);
+  };
+
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
   };
 
   return (
@@ -39,13 +45,31 @@ const NavBar = () => {
           <Link to="/" className={styles.navLink}>
             Home
           </Link>
+
           <Link to="/upcoming" className={styles.navLink}>
             Upcoming
           </Link>
+
           <Link to="/contactus" className={styles.navLink}>
             Contact Us
           </Link>
         </section>
+
+        {(location.pathname === "/upcoming" ||
+          location.pathname.startsWith("/upcoming/")) && (
+          <div className={styles.filterContainer}>
+            <section className={styles.searchBox}>
+              <input
+                type="search"
+                name="search"
+                id="search"
+                placeholder="Search"
+                value={searchQuery}
+                onInput={handleSearch}
+              />
+            </section>
+          </div>
+        )}
 
         <section className={styles.cartSide}>
           <BiChevronsDown
@@ -53,8 +77,14 @@ const NavBar = () => {
             size={30}
             onClick={toggleMenu}
           />
-          <Link to="/cart" className={styles.navLink}>
-            <span></span> <TiShoppingCart size={30} />
+
+          <Link to="/cart" style={{ color: "black" }}>
+            <div className={styles.cartIcon}>
+              {cartItems.length !== 0 && (
+                <span className={styles.itemsNum}>{cartItems.length}</span>
+              )}
+              <TiShoppingCart size={30} />
+            </div>
           </Link>
         </section>
       </nav>
