@@ -1,13 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import styles from "./upcoming.module.css";
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-// import { Element } from "react-scroll";
+import photo from "../../assets/images/ooppps.png";
 import { KicksContext } from "../../context/KicksContextProvider";
 
 import apiData from "../../../api.json";
 import ProductCard from "../../components/ProductCard";
 import CustomButton from "../../components/CustomButton";
+import LoadScreen from "../../components/LoadingScreen";
 
 const Upcoming = () => {
   const {
@@ -22,23 +23,9 @@ const Upcoming = () => {
     setSortBy,
   } = useContext(KicksContext);
 
+  const [itemsFound, setItemsFound] = useState(true);
   const { sneakerId } = useParams();
   const navigate = useNavigate();
-
-  // const filterAndSetSneakerData = () => {
-  //   const filteredSneakerData = apiData.sneakers
-  //     .filter((sneaker) => {
-  //       const releaseYear = new Date(sneaker.release_date).getFullYear();
-  //       return (
-  //         releaseYear >= 2018 &&
-  //         sneaker.name.toLowerCase().includes(searchQuery.toLowerCase())
-  //       );
-  //     })
-  //     .sort((a, b) => new Date(a.release_date) - new Date(b.release_date))
-  //     .slice(0, numProductsToShow);
-
-  //   setSneakerData(filteredSneakerData);
-  // };
 
   const filterAndSetSneakerData = () => {
     let filteredSneakerData = apiData.sneakers.filter((sneaker) => {
@@ -48,6 +35,14 @@ const Upcoming = () => {
         sneaker.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
     });
+
+    if (filteredSneakerData.length === 0) {
+      // No items found
+      setItemsFound(false);
+    } else {
+      // Items found
+      setItemsFound(true);
+    }
 
     if (sortBy === "date") {
       filteredSneakerData = filteredSneakerData.sort(
@@ -121,80 +116,77 @@ const Upcoming = () => {
 
   return (
     <div className={styles.mainContainer}>
-      {/* <section className={styles.filterBox}>
-        <label>Sort by:</label>
-        <select
-          name="filters"
-          id=""
-          value={sortBy}
-          onInput={(e) => setSortBy(e.target.value)}
-        >
-          <option value="date">Date</option>
-          <option value="price">Price</option>
-        </select>
-      </section> */}
-      <section className={styles.filterBox}>
-        <label>Sort by:</label>
-        <div className={styles.buttonContainer}>
-          <CustomButton buttonText={"Date"} onClick={() => setSortBy("date")} />
+      {itemsFound ? (
+        <>
+          <section className={styles.filterBox}>
+            <label>Sort by:</label>
+            <div className={styles.buttonContainer}>
+              <CustomButton
+                buttonText={"Date"}
+                onClick={() => setSortBy("date")}
+              />
+              <CustomButton
+                buttonText={"Price"}
+                onClick={() => setSortBy("price")}
+              />
+            </div>
+          </section>
 
-          <CustomButton
-            buttonText={"Price"}
-            onClick={() => setSortBy("price")}
-          />
-        </div>
-      </section>
+          <div name="sneakerList" className={styles.sneakerList}>
+            {sneakerData.length > 0 ? (
+              sneakerData.map((sneaker, index) => {
+                const formattedReleaseDate = formatReleaseDate(
+                  sneaker.release_date
+                );
+                const formattedPriceValue = formattedPrice(
+                  sneaker.retail_price_cents
+                );
 
-      <div name="sneakerList" className={styles.sneakerList}>
-        {sneakerData.length > 0 ? (
-          sneakerData.map((sneaker, index) => {
-            const formattedReleaseDate = formatReleaseDate(
-              sneaker.release_date
-            );
-
-            const formattedPriceValue = formattedPrice(
-              sneaker.retail_price_cents
-            );
-
-            return (
-              <div
-                key={index}
-                id={`sneaker-${sneaker.id}`}
-                className={`${styles.productCard}`}
-              >
-                <Link
-                  style={{ color: "black" }}
-                  to={`/details/${sneaker.id}`}
-                  onClick={() => {
-                    sessionStorage.setItem(
-                      "shoeState",
-                      JSON.stringify(sneaker)
-                    );
-                    setSelectedSneaker(sneaker);
-                  }}
-                >
-                  <ProductCard
-                    buttonText="Pre-Order"
-                    price={formattedPriceValue}
-                    shoeName={sneaker.name}
-                    imgSrc={sneaker.grid_picture_url}
-                    releaseDate={formattedReleaseDate}
-                  />
-                </Link>
-              </div>
-            );
-          })
-        ) : (
-          <div className={styles.loader}>
-            <span className={styles.bar}></span>
-            <span className={styles.bar}></span>
-            <span className={styles.bar}></span>
+                return (
+                  <div
+                    key={index}
+                    id={`sneaker-${sneaker.id}`}
+                    className={`${styles.productCard}`}
+                  >
+                    <Link
+                      style={{ color: "black" }}
+                      to={`/details/${sneaker.id}`}
+                      onClick={() => {
+                        sessionStorage.setItem(
+                          "shoeState",
+                          JSON.stringify(sneaker)
+                        );
+                        setSelectedSneaker(sneaker);
+                      }}
+                    >
+                      <ProductCard
+                        buttonText="Pre-Order"
+                        price={formattedPriceValue}
+                        shoeName={sneaker.name}
+                        imgSrc={sneaker.grid_picture_url}
+                        releaseDate={formattedReleaseDate}
+                      />
+                    </Link>
+                  </div>
+                );
+              })
+            ) : (
+              <LoadScreen />
+            )}
           </div>
-        )}
-      </div>
-      {numProductsToShow < apiData.sneakers.length && (
-        <div className={styles.loadMoreButton}>
-          <CustomButton onClick={loadMoreProducts} buttonText={"Load More"} />
+          {numProductsToShow < apiData.sneakers.length && (
+            <div className={styles.loadMoreButton}>
+              <CustomButton
+                onClick={loadMoreProducts}
+                buttonText={"Load More"}
+              />
+            </div>
+          )}
+        </>
+      ) : (
+        <div>
+          <img src={photo} alt="" />
+          <h2>No results match your search.</h2>
         </div>
       )}
     </div>

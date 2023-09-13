@@ -1,11 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unescaped-entities */
-import ProductCard from "../../components/ProductCard";
 import styles from "./home.module.css";
 import { useState, useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
+import LoadScreen from "../../components/LoadingScreen/index";
 const Home = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
   const slideShow = [
     {
       pic: "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/163492f2-ec02-4430-aa57-db32039a2b09/air-griffey-max-1-mens-shoes-6q83v3.png",
@@ -27,33 +26,85 @@ const Home = () => {
     },
   ];
 
+  const [mainPicIndex, setMainPicIndex] = useState(0);
+  const [imageLoading, setImageLoading] = useState(true);
+  const navigate = useNavigate();
+
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % slideShow.length);
-    }, 3000);
+      // Calculate the next index to display
+      const nextIndex = (mainPicIndex + 1) % slideShow.length;
+      setMainPicIndex(nextIndex);
+    }, 3500);
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
+    return () => clearInterval(interval);
+  }, [mainPicIndex, slideShow]);
+
+  const handleClick = () => {
+    navigate("/upcoming");
+  };
+
+  const handleImageLoad = () => {
+    // Called when the image successfully loads
+    setImageLoading(false);
+  };
 
   return (
     <div className={styles.mainContainer}>
-      {slideShow.map((item, index) => (
-        <div
-          className={styles.container}
-          key={index}
-          style={{ display: index === currentIndex ? "block" : "none" }}
-        >
-          <ProductCard
-            buttonText="Notify Me"
-            shoeName="Nike Air Griffey Max 1"
-            imgSrc={item.pic}
-            releaseDate="May 2024"
-          />
+      <section className={styles.picBox}>
+        <aside className={styles.grid}>
+          {slideShow.map((item, index) => (
+            <img
+              className={styles.gridPic}
+              key={index}
+              src={item.pic}
+              alt=""
+              onMouseEnter={() => setMainPicIndex(index)}
+              onLoad={handleImageLoad}
+              onError={handleImageLoad}
+            />
+          ))}
+        </aside>
+        <div className={styles.mainPic}>
+          {imageLoading ? (
+            // Show loading screen while images are loading
+            <div className={styles.loadingScreen}>
+              <LoadScreen />
+            </div>
+          ) : (
+            <img
+              className={styles.mainImg}
+              src={slideShow[mainPicIndex].pic}
+              alt=""
+            />
+          )}
         </div>
-      ))}
+      </section>
+
+      <section className={styles.textBox}>
+        <h1 className={styles.header}> KicksVille</h1>
+        <p>
+          Discover the perfect blend of fashion and function with our exclusive
+          collection of premium sneakers. Elevate your footwear game and make a
+          statement wherever you go. Whether you're an avid athlete or a fashion
+          enthusiast, our sneakers are designed to cater to your unique style
+          and performance needs.
+        </p>
+        <br />
+        <p>
+          Shop with confidence knowing that quality is our top priority. We
+          partner with renowned brands and manufacturers to offer you the finest
+          sneakers that blend style, comfort, and durability. With every
+          purchase, you're investing in footwear that will exceed your
+          expectations and provide unmatched value.
+        </p>
+
+        <button onClick={handleClick} className={styles.action}>
+          see more!
+        </button>
+      </section>
     </div>
   );
 };
+
 export default Home;

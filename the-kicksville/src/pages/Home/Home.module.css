@@ -1,5 +1,140 @@
 .mainContainer {
-  font-family: "Prompt", sans-serif;
-  padding-top: 7rem;
+  /* font-family: "Prompt", sans-serif; */
+  /* padding-top: rem; */
+  padding: 2rem;
+  margin-top: 3rem;
+  display: flex;
+  /* align-items: flex-start; */
   height: 100vh;
+}
+
+.picBox {
+  margin: auto;
+  /* height: 100%; */
+  /* overflow-y: auto; */
+  display: flex;
+  /* justify-content: center; */
+  /* align-items: flex-start; */
+  /* max-height: 70vh; */
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+}
+
+.mainImg {
+  /* width: 35.35vmax; */
+  width: 480px;
+}
+
+.gridPic {
+  width: 80px;
+}
+
+.textBox {
+  margin: auto;
+}
+
+.header {
+  font-family: "Permanent Marker", cursive;
+  font-size: 3rem;
+}
+
+.action {
+  font-size: 18px;
+  color: #000;
+  font-family: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  position: relative;
+  border: none;
+  background: none;
+  text-transform: uppercase;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 400ms;
+  transition-property: color;
+}
+
+.action:focus,
+.action:hover {
+  color: #000;
+}
+
+.action:focus:after,
+.action:hover:after {
+  width: 100%;
+  left: 0%;
+}
+
+.action:after {
+  content: "";
+  pointer-events: none;
+  bottom: -2px;
+  left: 50%;
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background-color: #000;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 400ms;
+  transition-property: width, left;
+}
+
+@media only screen and (max-width: 820px) {
+  .mainContainer {
+    padding-top: 2rem;
+    overflow-y: auto;
+    flex-wrap: wrap;
+  }
+
+  .picBox {
+    place-content: center;
+    width: 100%;
+    /* outline: 1px solid red; */
+  }
+
+  .mainPic {
+    width: 36rem;
+  }
+  .mainImg {
+    width: 100%;
+  }
+
+  .gridPic {
+    width: 6rem;
+  }
+}
+
+@media only screen and (max-width: 520px) {
+  .mainContainer {
+    padding: 1.5rem;
+    padding-top: 2rem;
+  }
+  .picBox {
+    width: 100%;
+    flex-direction: column-reverse;
+    /* place-content: center; */
+    /* margin: auto; */
+  }
+
+  .mainPic {
+    /* outline: 1px solid red; */
+    width: 100%;
+  }
+
+  .mainImg {
+    width: 350px;
+  }
+
+  .grid {
+    /* display: none; */
+    /* width: 300px; */
+    flex-direction: row;
+    margin: auto;
+  }
+
+  .gridPic {
+    width: 58.5px;
+  }
 }

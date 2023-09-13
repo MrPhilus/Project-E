@@ -1,11 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import CustomButton from "../../components/CustomButton";
 import styles from "./ProductDetails.module.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { useContext, useEffect } from "react";
 import { KicksContext } from "../../context/KicksContextProvider";
 import { BiChevronsDown } from "react-icons/bi";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ProductDetails = () => {
   const navigate = useNavigate();
@@ -43,9 +46,47 @@ const ProductDetails = () => {
 
       setSelectedSize("");
       setError("");
-
       // You can also navigate to the cart page if needed
-      navigate("/cart");
+      // toast.success("Added to Cart", {
+      //   position: "bottom-right",
+      //   autoClose: 3000,
+      //   hideProgressBar: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   style: {
+      //     backgroundColor: "black",
+      //     color: "white",
+      //   },
+      //   progressStyle: {
+      //     backgroundColor: "grey",
+      //   },
+      // });
+      toast.success(
+        <>
+          Added to Cart
+          <br />
+          <Link
+            to="/cart"
+            style={{ textDecoration: "underline", color: "white" }}
+          >
+            Go To Cart
+          </Link>
+        </>,
+        {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          style: {
+            backgroundColor: "black",
+            color: "#08b50b",
+          },
+          progressStyle: {
+            backgroundColor: "grey",
+          },
+        }
+      );
     } else {
       setError("Select A Size Before Adding To Cart");
     }
@@ -64,10 +105,12 @@ const ProductDetails = () => {
 
   return selectedSneaker ? (
     <div>
+      <ToastContainer />
       <div className={styles.container}>
         <div className={styles.aside}>
           <div>
             <IoMdArrowRoundBack
+              className={styles.back}
               style={{
                 fontSize: "3.5vmax",
                 cursor: "pointer",
@@ -89,7 +132,7 @@ const ProductDetails = () => {
           <section className={styles.story}>
             <div>
               <h2>{selectedSneaker.name}</h2>
-              <h3>{selectedSneaker.details}</h3>
+              <h3 style={{ fontStyle: "italic" }}>{selectedSneaker.details}</h3>
               <h3>{formattedPriceValue}</h3>
               <p className={styles.writeUp}>{selectedSneaker.story_html}</p>
               <CustomButton
@@ -126,6 +169,7 @@ const ProductDetails = () => {
 
       {/* mobile layout */}
       <div className={styles.mobileContainer}>
+        <ToastContainer />
         <div className={styles.asideMobi}>
           <div className={styles.back}>
             <IoMdArrowRoundBack

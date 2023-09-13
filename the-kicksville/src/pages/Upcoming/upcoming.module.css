@@ -114,41 +114,6 @@
   margin-top: -2rem;
 }
 
-.loader {
-  display: flex;
-  align-items: center;
-}
-
-.bar {
-  display: inline-block;
-  width: 3px;
-  height: 20px;
-  background-color: rgba(255, 255, 255, 0.5);
-  border-radius: 10px;
-  animation: scale-up4 1s linear infinite;
-}
-
-.bar:nth-child(2) {
-  height: 35px;
-  margin: 0 5px;
-  animation-delay: 0.25s;
-}
-
-.bar:nth-child(3) {
-  animation-delay: 0.5s;
-}
-
-@keyframes scale-up4 {
-  20% {
-    background-color: #ffff;
-    transform: scaleY(1.5);
-  }
-
-  40% {
-    transform: scaleY(1);
-  }
-}
-
 .filterBox {
   margin-top: -1rem;
   position: relative;
@@ -157,6 +122,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-top: 1rem;
   /* outline: 1px solid black; */
 }
 .filterBox label {
@@ -179,6 +145,6 @@
   .sneakerList {
     padding: 1rem;
     padding-top: 7rem;
-    row-gap: 50px;
+    row-gap: 80px;
   }
 }

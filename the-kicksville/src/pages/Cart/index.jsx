@@ -5,7 +5,7 @@ import { useContext } from "react";
 
 const Cart = () => {
   const { cartItems } = useContext(KicksContext);
-  console.log(cartItems);
+  // console.log(cartItems);
 
   return (
     <div className={styles.container}>

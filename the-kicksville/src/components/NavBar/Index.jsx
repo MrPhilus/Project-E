@@ -63,7 +63,7 @@ const NavBar = () => {
                 type="search"
                 name="search"
                 id="search"
-                placeholder="Search"
+                placeholder="Search by name or color"
                 value={searchQuery}
                 onInput={handleSearch}
               />

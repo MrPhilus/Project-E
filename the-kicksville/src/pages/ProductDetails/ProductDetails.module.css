@@ -72,10 +72,6 @@
 .sizes {
   padding: 0.3rem;
 }
-.sizes:focus {
-  background-color: rgb(78, 78, 78);
-  color: white;
-}
 
 .dropDown {
   width: 100%;

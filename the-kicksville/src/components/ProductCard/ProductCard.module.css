@@ -78,7 +78,7 @@
 
 @media only screen and (max-width: 500px) {
   .cardContent {
-    height: 40vmax;
+    height: 36vmax;
     padding: 1rem;
   }
 
