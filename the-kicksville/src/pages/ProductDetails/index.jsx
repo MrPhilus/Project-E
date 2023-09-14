@@ -46,21 +46,7 @@ const ProductDetails = () => {
 
       setSelectedSize("");
       setError("");
-      // You can also navigate to the cart page if needed
-      // toast.success("Added to Cart", {
-      //   position: "bottom-right",
-      //   autoClose: 3000,
-      //   hideProgressBar: false,
-      //   closeOnClick: true,
-      //   pauseOnHover: true,
-      //   style: {
-      //     backgroundColor: "black",
-      //     color: "white",
-      //   },
-      //   progressStyle: {
-      //     backgroundColor: "grey",
-      //   },
-      // });
+
       toast.success(
         <>
           Added to Cart

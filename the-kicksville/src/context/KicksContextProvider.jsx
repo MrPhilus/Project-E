@@ -3,35 +3,53 @@ import { createContext, useState } from "react";
 
 export const KicksContext = createContext();
 
+// controls for loading more products
 const KicksContextProvider = ({ children }) => {
   const initialProductsToShow = 6;
   const productsToAdd = 6;
 
   //navigation
   const [menuOpen, setMenuOpen] = useState(false);
+
   //products to display
   const [sneakerData, setSneakerData] = useState([]);
   const [selectedSneaker, setSelectedSneaker] = useState({});
   const [numProductsToShow, setNumProductsToShow] = useState(
     initialProductsToShow
   );
-  //shoe sizes in product details
+
+  //products displayed by search and filter
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortBy, setSortBy] = useState("");
+
+  //product details
   const [sizes, setSizes] = useState([]);
+  const [error, setError] = useState("");
+
   //cart
   const [cartItems, setCartItems] = useState([]);
   const [selectedSize, setSelectedSize] = useState(0);
 
-  const [error, setError] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
+  // contact form
+  const [input, setInput] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
 
-  const [sortBy, setSortBy] = useState("");
+  // home page image controls
+  const [mainPicIndex, setMainPicIndex] = useState(0);
+  const [imageLoading, setImageLoading] = useState(true);
 
+  //adding new items to cart
   const addToCart = (product) => {
     setCartItems([...cartItems, product]);
   };
 
+  //price conversion from cents
   const formattedPriceValue = `$${selectedSneaker.retail_price_cents / 100}`;
 
+  // all states and variables globally available
   const objectsPassed = {
     menuOpen,
     setMenuOpen,
@@ -57,6 +75,12 @@ const KicksContextProvider = ({ children }) => {
     setSearchQuery,
     sortBy,
     setSortBy,
+    input,
+    setInput,
+    mainPicIndex,
+    setMainPicIndex,
+    imageLoading,
+    setImageLoading,
   };
 
   return (

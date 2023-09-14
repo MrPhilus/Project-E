@@ -1,9 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unescaped-entities */
 import styles from "./home.module.css";
-import { useState, useEffect } from "react";
+import { useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import LoadScreen from "../../components/LoadingScreen/index";
+import { KicksContext } from "../../context/KicksContextProvider";
+
 const Home = () => {
   const slideShow = [
     {
@@ -26,8 +28,8 @@ const Home = () => {
     },
   ];
 
-  const [mainPicIndex, setMainPicIndex] = useState(0);
-  const [imageLoading, setImageLoading] = useState(true);
+  const { mainPicIndex, setMainPicIndex, imageLoading, setImageLoading } =
+    useContext(KicksContext);
   const navigate = useNavigate();
 
   useEffect(() => {

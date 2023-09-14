@@ -28,7 +28,7 @@
   padding-top: 8rem;
   padding-left: 4rem;
   padding-right: 4rem;
-  padding-bottom: 8rem;
+  /* padding-bottom: 8rem; */
   /* height: 100vh; */
   /* max-height: 100vh; */
   overflow-y: auto;
@@ -36,9 +36,10 @@
   /* outline: 1px solid red; */
 }
 
-/* .sneakerList::-webkit-scrollbar {
-  display: none;
-} */
+.sneakerList::-webkit-scrollbar {
+  /* display: none; */
+  /* z-index: 0; */
+}
 .productCard {
   /* flex: 0 0 auto;
   scroll-snap-align: start; */

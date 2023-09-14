@@ -5,7 +5,7 @@ import "./App.css";
 import NavPage from "./pages/NavPage";
 import Home from "./pages/Home";
 import Upcoming from "./pages/Upcoming/Upcoming";
-import ContactUs from "./pages/ContactUs/ContactUs";
+import ContactUs from "./pages/ContactUs";
 import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
 
