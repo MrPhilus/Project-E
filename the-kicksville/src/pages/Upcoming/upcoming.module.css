@@ -6,17 +6,7 @@
   font-family: "Prompt", sans-serif;
   font-weight: 600;
   height: 100vh;
-  /* padding-top: 8rem; */
 }
-
-/* .filterBox {
-  padding-top: 7rem;
-  position: fixed;
-  width: 100%;
-  z-index: 1;
-  top: 0;
-  outline: 1px solid red;
-} */
 
 .sneakerList {
   display: grid;
@@ -28,23 +18,36 @@
   padding-top: 8rem;
   padding-left: 4rem;
   padding-right: 4rem;
-  /* padding-bottom: 8rem; */
+  padding-bottom: 2rem;
   /* height: 100vh; */
   /* max-height: 100vh; */
   overflow-y: auto;
   background-color: #fff;
+  max-height: 100vh;
+  overflow-y: hidden;
   /* outline: 1px solid red; */
 }
 
-.sneakerList::-webkit-scrollbar {
-  /* display: none; */
-  /* z-index: 0; */
+.sneakerList:hover {
+  overflow-y: auto;
+  scrollbar-width: thin;
 }
-.productCard {
-  /* flex: 0 0 auto;
-  scroll-snap-align: start; */
-  /* padding: 2rem; */
+
+/* .sneakerList::-webkit-scrollbar {
+  width: 10px;
 }
+
+.sneakerList::-webkit-scrollbar-thumb {
+  background-color: grey;
+  border-radius: 4px;
+  width: 10px;
+  border-top: 8px solid rgba(0, 0, 0, 0);
+  border-bottom: 8px solid #00000000;
+}
+
+.sneakerList::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+} */
 
 .sneakerInfo {
   /* border: 1px solid #ccc;

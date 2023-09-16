@@ -4,10 +4,11 @@ import "./App.css";
 //pages
 import NavPage from "./pages/NavPage";
 import Home from "./pages/Home";
-import Upcoming from "./pages/Upcoming/Upcoming";
+import Upcoming from "./pages/Upcoming";
 import ContactUs from "./pages/ContactUs";
 import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
+import Error from "./pages/Error";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="/contactus" element={<ContactUs />} />
             <Route path="/cart" element={<Cart />} />
           </Route>
+          <Route path="*" element={<Error />} />
         </Routes>
       </Router>
     </div>

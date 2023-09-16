@@ -22,6 +22,8 @@ const ProductDetails = () => {
     formattedPriceValue,
     error,
     setError,
+    discount,
+    setDiscount,
   } = useContext(KicksContext);
 
   const handleBackClick = () => {
@@ -32,6 +34,7 @@ const ProductDetails = () => {
   const handleSizeSelect = (e) => {
     const selectedSizeValue = e.target.textContent;
     setSelectedSize(selectedSizeValue);
+
     setError("");
   };
 
@@ -42,8 +45,9 @@ const ProductDetails = () => {
         ...selectedSneaker,
         size: selectedSize,
         price: formattedPriceValue,
+        discount: discount,
+        quantity: 1,
       });
-
       setSelectedSize("");
       setError("");
 
@@ -86,8 +90,17 @@ const ProductDetails = () => {
       : [];
 
     setSizes(sortedSizes);
-    // console.log(sortedSizes);
-  }, []);
+    let shoeDiscount = 0;
+    if (selectedSize >= 5 && selectedSize <= 7) {
+      shoeDiscount = 15; // Set the discount percentage for this size range
+    } else if (selectedSize >= 7.5 && selectedSize <= 9.5) {
+      shoeDiscount = 12; // Set the discount percentage for this size range
+    } else if (selectedSize >= 10 && selectedSize <= 12) {
+      shoeDiscount = 10; // Set the discount percentage for this size range
+    }
+
+    setDiscount(shoeDiscount);
+  }, [selectedSize]);
 
   return selectedSneaker ? (
     <div>
@@ -120,6 +133,7 @@ const ProductDetails = () => {
               <h2>{selectedSneaker.name}</h2>
               <h3 style={{ fontStyle: "italic" }}>{selectedSneaker.details}</h3>
               <h3>{formattedPriceValue}</h3>
+              <p>Get {discount}% off!</p>
               <p className={styles.writeUp}>{selectedSneaker.story_html}</p>
               <CustomButton
                 containerStyle={styles.button}
@@ -133,9 +147,9 @@ const ProductDetails = () => {
         <div className={styles.sizeRange}>
           <div className={styles.sizeBox}>
             {error && <span className={styles.errorMsg}>{error}</span>}
-            <details className={styles.dropDown}>
+            <details open className={styles.dropDown}>
               <summary>
-                <h3>Available Sizes</h3>{" "}
+                <h3>Available Sizes</h3>
                 <BiChevronsDown className={styles.arrowDown} size={20} />
               </summary>
               <ul className={styles.listBox}>

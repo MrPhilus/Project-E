@@ -21,6 +21,7 @@ const Upcoming = () => {
     searchQuery,
     sortBy,
     setSortBy,
+    formattedPriceValue,
   } = useContext(KicksContext);
 
   const [itemsFound, setItemsFound] = useState(true);
@@ -71,9 +72,9 @@ const Upcoming = () => {
     });
   }
 
-  function formattedPrice(price) {
-    return `$${price / 100}`;
-  }
+  // function formattedPrice(price) {
+  //   return `$${price / 100}`;
+  // }
 
   const resetRoute = () => {
     navigate("/upcoming"); // Navigate to the "Upcoming" route
@@ -138,9 +139,9 @@ const Upcoming = () => {
                 const formattedReleaseDate = formatReleaseDate(
                   sneaker.release_date
                 );
-                const formattedPriceValue = formattedPrice(
-                  sneaker.retail_price_cents
-                );
+                // const formattedPriceValue = formattedPrice(
+                //   sneaker.retail_price_cents
+                // );
 
                 return (
                   <div
