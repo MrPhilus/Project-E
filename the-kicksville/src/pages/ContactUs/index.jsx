@@ -12,64 +12,61 @@ const ContactUs = () => {
   const { input } = useContext(KicksContext);
   const form = useRef();
 
+  const emailService = import.meta.env.VITE_APP_EMAIL;
+  const serviceId = import.meta.env.VITE_SERVICE_ID;
+  const templateId = import.meta.env.VITE_TEMPLATE_ID_1;
+
   //email network processing with errors
   const sendEmail = () => {
-    emailjs
-      .sendForm(
-        "service_lyoq3gd",
-        "template_4dscc91",
-        form.current,
-        "4a4lIwY4y77e2eMDK"
-      )
-      .then(
-        (result) => {
-          toast.success(
-            <>
-              Message Delivered
-              <br />
-            </>,
-            {
-              position: "bottom-right",
-              autoClose: 3000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              style: {
-                backgroundColor: "black",
-                color: "#08b50b",
-              },
-              progressStyle: {
-                backgroundColor: "grey",
-              },
-            }
-          );
+    emailjs.sendForm(serviceId, templateId, form.current, emailService).then(
+      (result) => {
+        toast.success(
+          <>
+            Message Delivered
+            <br />
+          </>,
+          {
+            position: "bottom-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            style: {
+              backgroundColor: "black",
+              color: "#08b50b",
+            },
+            progressStyle: {
+              backgroundColor: "grey",
+            },
+          }
+        );
 
-          console.log(result.text);
-        },
-        (error) => {
-          console.log(error.text);
-          toast.error(
-            <>
-              Message Not Sent
-              <br />
-            </>,
-            {
-              position: "bottom-right",
-              autoClose: 3000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              style: {
-                backgroundColor: "black",
-                color: "#fff",
-              },
-              progressStyle: {
-                backgroundColor: "grey",
-              },
-            }
-          );
-        }
-      );
+        console.log(result.text);
+      },
+      (error) => {
+        console.log(error.text);
+        toast.error(
+          <>
+            Message Not Sent
+            <br />
+          </>,
+          {
+            position: "bottom-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            style: {
+              backgroundColor: "black",
+              color: "#fff",
+            },
+            progressStyle: {
+              backgroundColor: "grey",
+            },
+          }
+        );
+      }
+    );
   };
 
   // formik validation and errors

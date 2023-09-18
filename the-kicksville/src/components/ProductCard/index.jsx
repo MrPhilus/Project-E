@@ -2,15 +2,15 @@
 import CustomButton from "../CustomButton";
 import styles from "./ProductCard.module.css";
 import LoadScreen from "../LoadingScreen";
-import { useContext } from "react";
-import { KicksContext } from "../../context/KicksContextProvider";
+import { useState } from "react";
 
 const ProductCard = ({ shoeName, imgSrc, releaseDate, price }) => {
-  const { imageLoading } = useContext(KicksContext);
+  const [imageLoad, setImageLoad] = useState(true);
+
   return (
     <div className={styles.card}>
       <div className={styles.cardContent}>
-        {!imageLoading ? (
+        {!imageLoad ? (
           <div className={styles.loadingScreen}>
             <LoadScreen />
           </div>

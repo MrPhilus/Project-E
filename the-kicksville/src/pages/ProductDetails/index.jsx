@@ -48,6 +48,7 @@ const ProductDetails = () => {
         discount: discount,
         quantity: 1,
       });
+
       setSelectedSize("");
       setError("");
 
@@ -132,7 +133,7 @@ const ProductDetails = () => {
             <div>
               <h2>{selectedSneaker.name}</h2>
               <h3 style={{ fontStyle: "italic" }}>{selectedSneaker.details}</h3>
-              <h3>{formattedPriceValue}</h3>
+              <h3>${formattedPriceValue}</h3>
               <p>Get {discount}% off!</p>
               <p className={styles.writeUp}>{selectedSneaker.story_html}</p>
               <CustomButton

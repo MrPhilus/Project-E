@@ -11,19 +11,15 @@
 }
 
 *::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 *::-webkit-scrollbar-thumb {
   background-color: #8b8888;
-  border-top: 50px solid white;
+  border-top: 90px solid white;
   border-bottom: 5px solid white;
 }
 
 *::-webkit-scrollbar-thumb:hover {
   background-color: #818080;
 }
-
-/* body::-webkit-scrollbar {
-  display: none;
-} */

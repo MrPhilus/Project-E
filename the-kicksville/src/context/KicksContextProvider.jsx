@@ -40,6 +40,10 @@ const KicksContextProvider = ({ children }) => {
   // home page image controls
   const [mainPicIndex, setMainPicIndex] = useState(0);
   const [imageLoading, setImageLoading] = useState(true);
+  const handleImageLoad = () => {
+    // Called when the image successfully loads
+    setImageLoading(false);
+  };
 
   const [discount, setDiscount] = useState(0);
 
@@ -72,18 +76,22 @@ const KicksContextProvider = ({ children }) => {
   // cart quantity controls
   const increaseQuantity = (item) => {
     item.quantity += 1;
+    item.price += formattedPriceValue;
     setCartItems([...cartItems]);
   };
 
   const reduceQuantity = (item) => {
     if (item.quantity > 1) {
       item.quantity -= 1;
+      item.price -= formattedPriceValue;
       setCartItems([...cartItems]);
     }
   };
 
   // price conversion from cents
-  const formattedPriceValue = `$${selectedSneaker.retail_price_cents / 100}`;
+  const formattedPriceValue = parseFloat(
+    selectedSneaker.retail_price_cents / 100
+  );
 
   // handling discount
 
@@ -124,6 +132,7 @@ const KicksContextProvider = ({ children }) => {
     setMainPicIndex,
     imageLoading,
     setImageLoading,
+    handleImageLoad,
   };
 
   return (
