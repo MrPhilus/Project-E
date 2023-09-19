@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Outlet, useLocation } from "react-router-dom";
 import NavBar from "../components/NavBar/Index";
 import { useEffect, useContext } from "react";
