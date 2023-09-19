@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unescaped-entities */
-import styles from "./home.module.css";
+import styles from "./Home.module.css";
 import { useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import LoadScreen from "../../components/LoadingScreen/index";
