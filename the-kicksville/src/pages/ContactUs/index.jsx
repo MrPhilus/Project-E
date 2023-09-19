@@ -1,20 +1,21 @@
 import { useRef, useContext } from "react";
 import emailjs from "@emailjs/browser";
 import styles from "./ContactUs.module.css";
-import { toast } from "react-toastify";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useFormik } from "formik";
 import { KicksContext } from "../../context/KicksContextProvider";
 import CustomButton from "../../components/CustomButton";
 
-const ContactUs = () => {
-  const { input } = useContext(KicksContext);
-  const form = useRef();
+// notifications
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-  const emailService = import.meta.env.VITE_APP_EMAIL;
-  const serviceId = import.meta.env.VITE_SERVICE_ID;
-  const templateId = import.meta.env.VITE_TEMPLATE_ID_1;
+// form validation
+import { useFormik } from "formik";
+
+const ContactUs = () => {
+  const { input, emailService, serviceId, templateId } =
+    useContext(KicksContext);
+  const form = useRef();
 
   //email network processing with errors
   const sendEmail = () => {

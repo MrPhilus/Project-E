@@ -2,7 +2,6 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  /* place-items: center; */
   padding: 2rem;
   padding-top: 7rem;
   height: 100vh;
@@ -16,16 +15,10 @@
   align-items: flex-start;
   justify-content: center;
   padding: 0.5rem;
-  /* outline: 1px solid black; */
   height: 100%;
 }
 
 .details {
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* align-items: center; */
-  /* justify-content: space-around; */
-  /* outline: 1px solid red; */
   padding: 1rem;
   width: 35%;
   height: 100%;
@@ -111,7 +104,6 @@ summary:hover .arrowDown {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* outline: 1px solid red; */
 }
 .errorMsg {
   color: red;
@@ -129,7 +121,6 @@ summary:hover .arrowDown {
   }
 }
 .mobileContainer {
-  /* visibility: hidden; */
   display: none;
 }
 
@@ -141,7 +132,6 @@ summary:hover .arrowDown {
   .mobileContainer {
     display: flex;
     flex-direction: column;
-    /* overflow-y: auto; */
     align-items: center;
     justify-content: space-evenly;
     padding: 2rem;

@@ -1,9 +1,6 @@
 .container {
   padding: 2rem;
-  /* margin-top: -4rem; */
-  /* height: 100vh; */
   padding-top: 5rem;
-  /* height: 100%; */
 }
 
 .content {
@@ -13,7 +10,6 @@
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
-  flex-wrap: wrap;
 }
 
 .emptyCart {
@@ -34,11 +30,10 @@ ul {
 
 .cartList {
   display: flex;
-  /* align-items: center; */
   align-items: flex-start;
   justify-content: center;
   border: 3px solid black;
-  height: 14rem;
+  height: 16vmax;
   margin: 1rem;
 }
 
@@ -48,7 +43,8 @@ ul {
 }
 
 .cartList img {
-  width: 18vmax;
+  width: 14vmax;
+  filter: brightness(100%);
 }
 
 .imgSide,
@@ -88,13 +84,12 @@ ul {
 }
 .quantity {
   padding: 1rem;
-  font-size: 1.25rem;
+  font-size: 1.25vmax;
 }
 
 .priceSide {
   width: 40%;
   padding: 2rem;
-  /* gap: 1rem; */
   justify-content: space-between;
 }
 
@@ -105,7 +100,7 @@ ul {
 .button {
   padding: 0.25rem;
   font-weight: 500;
-  font-size: 1.5rem;
+  font-size: 1.5vmax;
 }
 
 .checkOut {
@@ -115,12 +110,71 @@ ul {
   align-items: center;
   padding: 2rem;
   width: 100%;
-  /* outline: 1px solid green; */
 }
 
 .total > h2 {
-  width: 90%;
+  width: 94%;
   text-align: right;
-  /* padding-right: 8rem; */
-  /* border-bottom: 2px solid black; */
+}
+
+.retail,
+.discount {
+  font-size: 1.2vmax;
+}
+
+.priceBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.back {
+  display: flex;
+  width: 54%;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.back > h2 {
+  font-size: 2.5vmax;
+}
+
+@media only screen and (max-width: 520px) {
+  .container {
+    flex-wrap: wrap;
+  }
+
+  .cartList {
+    margin-left: 1rem;
+    height: 22vmax;
+    width: fit-content;
+  }
+
+  .imgSide {
+    width: 20%;
+    align-items: center;
+    justify-content: center;
+  }
+  .detailSide {
+    width: 70%;
+    gap: 2rem;
+  }
+
+  .details {
+    font-size: 1.15vmax;
+  }
+
+  .quantity,
+  .name,
+  .buttonBox > p {
+    font-size: 1.25vmax;
+  }
+
+  .total {
+    font-size: 1.3vmax;
+  }
+
+  .checkOut > input {
+    width: 100%;
+  }
 }

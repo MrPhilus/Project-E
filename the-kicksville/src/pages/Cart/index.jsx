@@ -1,13 +1,18 @@
-import { useState, useEffect } from "react";
-import styles from "./Cart.module.css";
-import cartImg from "../../assets/images/cart.png";
+import { useState, useContext, useEffect } from "react";
 import { KicksContext } from "../../context/KicksContextProvider";
-import { useContext } from "react";
+import styles from "./Cart.module.css";
+
+// resources
+import cartImg from "../../assets/images/cart.png";
+import thanks from "../../assets/images/Thanks.png";
 import { useNavigate } from "react-router-dom";
+import { IoMdArrowRoundBack } from "react-icons/io";
+import CustomButton from "../../components/CustomButton";
+
+// notification components
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import CustomButton from "../../components/CustomButton";
 import emailjs from "@emailjs/browser";
 
 const Cart = () => {
@@ -18,33 +23,48 @@ const Cart = () => {
 
   const {
     cartItems,
-    setCartItems,
     increaseQuantity,
     reduceQuantity,
     removeFromCart,
+    selectedSneaker,
+    serviceId,
+    emailService,
+    templateIdTwo,
   } = useContext(KicksContext);
 
+  // states to control order completion process
   const [userEmail, setUserEmail] = useState("");
   const [userName, setUserName] = useState("");
   const [couponCode, setCouponCode] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  function generateCouponCode() {
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    let code = "";
-
-    for (let i = 0; i < 7; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      code += characters.charAt(randomIndex);
-    }
-
-    return code;
-  }
-
-  const generateNewCouponCode = () => {
-    const newCouponCode = generateCouponCode();
-    setCouponCode(newCouponCode);
+  const handleBackClick = () => {
+    navigate(`/upcoming/${selectedSneaker.id}`);
   };
 
+  useEffect(() => {
+    // generates coupon for customer
+    function generateCouponCode() {
+      const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+      let code = "";
+
+      for (let i = 0; i < 7; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        code += characters.charAt(randomIndex);
+      }
+
+      return code;
+    }
+
+    const generateNewCouponCode = () => {
+      const newCouponCode = generateCouponCode();
+      setCouponCode(newCouponCode);
+    };
+
+    generateNewCouponCode();
+  }, []);
+
+  // functions handling order completion
   const handleEmailChange = (e) => {
     setUserEmail(e.target.value);
   };
@@ -58,24 +78,18 @@ const Cart = () => {
     setUserName("");
   };
 
-  const emailService = import.meta.env.VITE_APP_EMAIL;
-  const serviceId = import.meta.env.VITE_SERVICE_ID;
-  const templateId = import.meta.env.VITE_TEMPLATE_ID_2;
-
   const sendEmail = () => {
-    generateNewCouponCode();
-
     const emailParams = {
       name: userName,
       email: userEmail,
       message: generateEmailBody(cartItems),
       couponCode: couponCode,
-      contentType: "text/html",
     };
 
     emailjs
-      .send(serviceId, templateId, emailParams, emailService)
+      .send(serviceId, templateIdTwo, emailParams, emailService)
       .then((response) => {
+        setIsSubmitted(true);
         toast.success(
           <>
             Order Completed
@@ -128,35 +142,30 @@ const Cart = () => {
     // Create a formatted list of items
     const itemDetails = items
       .map((item) => {
-        return `${item.name}\nPrice: $${item.price}\nQuantity: ${item.quantity}\nPicture: ${item.grid_picture_url}\nDiscount: ${item.discount}%`;
+        const discountedPrice = (
+          item.price *
+          (1 - item.discount / 100)
+        ).toFixed(2);
+        return `${item.name}\nPrice: $${item.price}\nQuantity: ${item.quantity}\nSize: ${item.size}\nPicture: ${item.grid_picture_url}\nDiscount: ${item.discount}%\nDiscounted Price: $${discountedPrice}`;
       })
       .join("\n\n");
-
-    // Create the email body text
-    return `My Shopping Cart:\n\n${itemDetails}\n\nClaim your discount with this code:\nCoupon Code: ${couponCode}\n`;
+    const totalPrice = calculateTotalPrice(items);
+    // Creating the email body text
+    return `My Shopping Cart:\n\n${itemDetails}\n\nClaim your discount with this code:\nCoupon Code: ${couponCode}\n\nTotal Price: $${totalPrice}`;
   };
 
+  // calculating the total
   const calculateTotalPrice = (cartItems) => {
-    let totalPricePayable = 0;
+    let totalPrice = 0;
 
     for (const item of cartItems) {
       // Calculate the price for each item based on its quantity
-      const itemPrice = item.price * (1 - item.discount / 100);
-      totalPricePayable += itemPrice;
+      const Price = item.price * (1 - item.discount / 100);
+      totalPrice += Price;
     }
 
-    return totalPricePayable.toFixed(2);
+    return totalPrice.toFixed(2);
   };
-  // Save cartItems to session storage whenever it changes
-  useEffect(() => {
-    sessionStorage.setItem("cartItems", JSON.stringify(cartItems));
-  }, [cartItems]);
-  useEffect(() => {
-    const storedCartItems = sessionStorage.getItem("cartItems");
-    if (storedCartItems) {
-      setCartItems(JSON.parse(storedCartItems));
-    }
-  }, []);
 
   return (
     <div className={styles.container}>
@@ -164,64 +173,92 @@ const Cart = () => {
         <ToastContainer />
 
         <div>
-          <h2>Cart</h2>
-          {cartItems.length !== 0 ? (
-            <ul>
-              {cartItems.map((item, index) => (
-                <li key={index}>
-                  <div className={styles.cartList}>
-                    <CustomButton
-                      containerStyle={styles.remove}
-                      buttonText={"Remove"}
-                      onClick={() => removeFromCart(item)}
-                    />
-                    <section className={styles.imgSide}>
-                      <img src={item.grid_picture_url} alt="" />
-                    </section>
+          {cartItems.length !== 0 && (
+            <div className={styles.back}>
+              <IoMdArrowRoundBack
+                className={styles.back}
+                style={{
+                  fontSize: "3.5vmax",
+                  cursor: "pointer",
+                }}
+                onClick={handleBackClick}
+              />
+              <h2>Cart</h2>
+            </div>
+          )}
 
-                    <section className={styles.detailSide}>
-                      <div>
-                        <p className={styles.name}>{item.name}</p>
-                        <p className={styles.details}>{item.details}</p>
-                        <p className={styles.size}>Size: {item.size}</p>
-                      </div>
+          {cartItems.length !== 0 && !isSubmitted ? (
+            <div>
+              <ul>
+                {cartItems.map((item, index) => (
+                  <li key={index}>
+                    <div className={styles.cartList}>
+                      <CustomButton
+                        containerStyle={styles.remove}
+                        buttonText={"Remove"}
+                        onClick={() => removeFromCart(item)}
+                      />
 
-                      <div className={styles.buttonBox}>
-                        <p> Quantity:</p>
-                        <CustomButton
-                          containerStyle={styles.button}
-                          onClick={() => reduceQuantity(item)}
-                          buttonText={"-"}
-                        />
-                        <span className={styles.quantity}>{item.quantity}</span>
-                        <CustomButton
-                          containerStyle={styles.button}
-                          onClick={() => increaseQuantity(item)}
-                          buttonText={"+"}
-                        />
-                      </div>
-                    </section>
+                      <section className={styles.imgSide}>
+                        <img src={item.grid_picture_url} alt="" />
+                      </section>
 
-                    <section className={styles.priceSide}>
-                      <p className={styles.message}>
-                        You qualify for {item.discount}% discount on each of
-                        this product ordered!
-                      </p>
-                      <div>
-                        <p>Retail Price: ${item.price}</p>
-                        <p>
-                          Discounted Price: $
-                          {(item.price * (1 - item.discount / 100)).toFixed(2)}
+                      <section className={styles.detailSide}>
+                        <div>
+                          <p className={styles.name}>{item.name}</p>
+                          <p className={styles.details}>{item.details}</p>
+                          <p className={styles.size}>Size: {item.size}</p>
+                        </div>
+
+                        <div className={styles.buttonBox}>
+                          <p> Quantity:</p>
+                          <CustomButton
+                            containerStyle={styles.button}
+                            onClick={() => reduceQuantity(item)}
+                            buttonText={"-"}
+                          />
+                          <span className={styles.quantity}>
+                            {item.quantity}
+                          </span>
+                          <CustomButton
+                            containerStyle={styles.button}
+                            onClick={() => increaseQuantity(item)}
+                            buttonText={"+"}
+                          />
+                        </div>
+                      </section>
+
+                      <section className={styles.priceSide}>
+                        <p className={styles.message}>
+                          Get {item.discount}% off!
                         </p>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              ))}
-              <div className={styles.total}>
-                <h2>Total Price: ${calculateTotalPrice(cartItems)}</h2>
-              </div>
-            </ul>
+
+                        <div className={styles.priceBox}>
+                          <p className={styles.retail}>
+                            Retail Price: ${item.price}
+                          </p>
+
+                          <p className={styles.discount}>
+                            Discounted Price: $
+                            {(item.price * (1 - item.discount / 100)).toFixed(
+                              2
+                            )}
+                          </p>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                ))}
+
+                <div className={styles.total}>
+                  <h2>Total Price: ${calculateTotalPrice(cartItems)}</h2>
+                </div>
+              </ul>
+            </div>
+          ) : isSubmitted ? (
+            <div className={styles.thankYou}>
+              <img src={thanks} alt="" />
+            </div>
           ) : (
             <div className={styles.emptyCart}>
               <img src={cartImg} alt="" />
@@ -231,7 +268,8 @@ const Cart = () => {
             </div>
           )}
         </div>
-        {cartItems.length !== 0 && (
+
+        {cartItems.length !== 0 && !isSubmitted && (
           <div className={styles.checkOut}>
             <h3>Enter your details to claim discount</h3>
             <input
@@ -241,13 +279,15 @@ const Cart = () => {
               onInput={handleNameChange}
               name="name"
             />
+
             <input
               type="email"
               name="email"
-              placeholder="example@email.com"
+              placeholder="Enter a valid email"
               value={userEmail}
               onInput={handleEmailChange}
             />
+
             <CustomButton onClick={sendEmail} buttonText={"Complete Order"} />
           </div>
         )}

@@ -24,6 +24,7 @@ const NavBar = () => {
     setMenuOpen(false);
   };
 
+  // search function handling
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
   };

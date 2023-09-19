@@ -26,10 +26,6 @@ const KicksContextProvider = ({ children }) => {
   const [sizes, setSizes] = useState([]);
   const [error, setError] = useState("");
 
-  // cart
-  const [cartItems, setCartItems] = useState([]);
-  const [selectedSize, setSelectedSize] = useState(0);
-
   // contact form
   const [input, setInput] = useState({
     name: "",
@@ -41,10 +37,12 @@ const KicksContextProvider = ({ children }) => {
   const [mainPicIndex, setMainPicIndex] = useState(0);
   const [imageLoading, setImageLoading] = useState(true);
   const handleImageLoad = () => {
-    // Called when the image successfully loads
     setImageLoading(false);
   };
 
+  // cart
+  const [cartItems, setCartItems] = useState([]);
+  const [selectedSize, setSelectedSize] = useState(0);
   const [discount, setDiscount] = useState(0);
 
   // cart controls
@@ -68,6 +66,7 @@ const KicksContextProvider = ({ children }) => {
 
   const removeFromCart = (itemToRemove) => {
     const updatedCartItems = cartItems.filter(
+      //checking if id and sizes are same before removing
       (item) => item.id !== itemToRemove.id || item.size !== itemToRemove.size
     );
     setCartItems(updatedCartItems);
@@ -93,10 +92,18 @@ const KicksContextProvider = ({ children }) => {
     selectedSneaker.retail_price_cents / 100
   );
 
-  // handling discount
+  // env keys
+  const emailService = import.meta.env.VITE_APP_EMAIL;
+  const serviceId = import.meta.env.VITE_SERVICE_ID;
+  const templateId = import.meta.env.VITE_TEMPLATE_ID_1;
+  const templateIdTwo = import.meta.env.VITE_TEMPLATE_ID_2;
 
   // all states and variables globally available
   const objectsPassed = {
+    emailService,
+    serviceId,
+    templateId,
+    templateIdTwo,
     discount,
     setDiscount,
     menuOpen,

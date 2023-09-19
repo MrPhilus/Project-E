@@ -1,8 +1,11 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import CustomButton from "../CustomButton";
-import styles from "./ProductCard.module.css";
-import LoadScreen from "../LoadingScreen";
 import { useState } from "react";
+import styles from "./ProductCard.module.css";
+
+// components
+import CustomButton from "../CustomButton";
+import LoadScreen from "../LoadingScreen";
 
 const ProductCard = ({ shoeName, imgSrc, releaseDate, price }) => {
   const [imageLoad, setImageLoad] = useState(true);
@@ -17,10 +20,9 @@ const ProductCard = ({ shoeName, imgSrc, releaseDate, price }) => {
         ) : (
           <>
             <p className={styles.date}>{releaseDate}</p>
-
             <img className={styles.image} src={imgSrc} alt="" />
-
             <p className={styles.text}>{shoeName}</p>
+
             <div className={styles.bottom}>
               <span className={styles.price}>{price}</span>
               <CustomButton

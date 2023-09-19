@@ -29,7 +29,6 @@ const NavPage = () => {
       {pathname.includes("details") &&
         Object.keys(selectedSneaker).length > 0 && <Outlet />}
       {!pathname.includes("details") && <Outlet />}
-      {/* <div>{!pathname.includes("/cart") && <Footer />}</div> */}
       <div>
         {!(pathname === "/" || pathname.includes("/cart")) && <Footer />}
       </div>

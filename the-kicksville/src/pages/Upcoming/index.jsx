@@ -2,10 +2,11 @@
 import styles from "./upcoming.module.css";
 import { useEffect, useContext, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import photo from "../../assets/images/ooppps.png";
 import { KicksContext } from "../../context/KicksContextProvider";
-
 import apiData from "../../../api.json";
+
+// components
+import photo from "../../assets/images/ooppps.png";
 import ProductCard from "../../components/ProductCard";
 import CustomButton from "../../components/CustomButton";
 import LoadScreen from "../../components/LoadingScreen";
@@ -78,8 +79,8 @@ const Upcoming = () => {
   }
 
   const resetRoute = () => {
-    navigate("/upcoming"); // Navigate to the "Upcoming" route
-    setSelectedSneaker(""); // Clear the selected sneaker ID
+    navigate("/upcoming");
+    setSelectedSneaker("");
   };
 
   const loadMoreProducts = () => {
@@ -176,6 +177,7 @@ const Upcoming = () => {
               <LoadScreen />
             )}
           </div>
+
           {numProductsToShow < apiData.sneakers.length && (
             <div className={styles.loadMoreButton}>
               <CustomButton

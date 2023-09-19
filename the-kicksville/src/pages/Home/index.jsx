@@ -34,7 +34,7 @@ const Home = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      // Calculate the next index to display
+      // Calculate the next to display
       const nextIndex = (mainPicIndex + 1) % slideShow.length;
       setMainPicIndex(nextIndex);
     }, 3500);
@@ -67,6 +67,7 @@ const Home = () => {
             />
           ))}
         </aside>
+
         <div className={styles.mainPic}>
           {imageLoading ? (
             // Show loading screen while images are loading
@@ -85,7 +86,7 @@ const Home = () => {
 
       <section className={styles.textBox}>
         <h1 className={styles.header}> KicksVille</h1>
-        {/* <span className={styles.header}>dropZone</span> */}
+        <br />
 
         <p>
           Discover the perfect blend of fashion and function with our exclusive
@@ -98,10 +99,10 @@ const Home = () => {
         <p>
           Shop with confidence knowing that quality is our top priority. We
           partner with renowned brands and manufacturers to offer you the finest
-          sneakers that blend style, comfort, and durability. With every
-          purchase, you're investing in footwear that will exceed your
-          expectations and provide unmatched value.
+          sneakers that blend style, comfort, and durability. All for fantastic
+          prices provide unmatched value.
         </p>
+        <br />
         <button onClick={handleClick} className={styles.action}>
           see more!
         </button>

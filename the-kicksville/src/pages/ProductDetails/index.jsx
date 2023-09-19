@@ -1,11 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import CustomButton from "../../components/CustomButton";
 import styles from "./ProductDetails.module.css";
 import { useNavigate, Link } from "react-router-dom";
-import { IoMdArrowRoundBack } from "react-icons/io";
 import { useContext, useEffect } from "react";
 import { KicksContext } from "../../context/KicksContextProvider";
+import CustomButton from "../../components/CustomButton";
+
+// resources
+import { IoMdArrowRoundBack } from "react-icons/io";
 import { BiChevronsDown } from "react-icons/bi";
+
+// notifications
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -93,11 +97,11 @@ const ProductDetails = () => {
     setSizes(sortedSizes);
     let shoeDiscount = 0;
     if (selectedSize >= 5 && selectedSize <= 7) {
-      shoeDiscount = 15; // Set the discount percentage for this size range
+      shoeDiscount = 15;
     } else if (selectedSize >= 7.5 && selectedSize <= 9.5) {
-      shoeDiscount = 12; // Set the discount percentage for this size range
+      shoeDiscount = 12;
     } else if (selectedSize >= 10 && selectedSize <= 12) {
-      shoeDiscount = 10; // Set the discount percentage for this size range
+      shoeDiscount = 10;
     }
 
     setDiscount(shoeDiscount);
@@ -184,10 +188,8 @@ const ProductDetails = () => {
             <h3 style={{ fontSize: "1.6vmax", fontStyle: "italic" }}>
               {selectedSneaker.details}
             </h3>
-            <h3 style={{ fontSize: "2vmax" }}>{formattedPriceValue}</h3>
+            <h3 style={{ fontSize: "2vmax" }}>${formattedPriceValue}</h3>
           </section>
-
-          <div></div>
         </div>
 
         <div className={styles.detailsMobi}>

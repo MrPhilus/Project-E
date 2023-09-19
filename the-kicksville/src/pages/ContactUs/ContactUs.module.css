@@ -6,7 +6,6 @@
   justify-content: center;
   height: 100vh;
   gap: 1rem;
-  outline: 1px solid red;
 }
 
 .inputArea {
@@ -17,7 +16,6 @@
   width: 100%;
 }
 .inputArea > label {
-  /* outline: 1px solid red; */
   width: 70%;
   text-align: left;
   font-weight: 500;
@@ -81,6 +79,4 @@ textarea:hover {
 .button {
   width: 70%;
   font-size: 1.3rem;
-  /* font-size: x-large; */
-  /* margin: auto; */
 }
