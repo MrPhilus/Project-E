@@ -23,6 +23,7 @@ const Cart = () => {
 
   const {
     cartItems,
+    setCartItems,
     increaseQuantity,
     reduceQuantity,
     removeFromCart,
@@ -90,6 +91,8 @@ const Cart = () => {
       .send(serviceId, templateIdTwo, emailParams, emailService)
       .then((response) => {
         setIsSubmitted(true);
+        setCartItems([]);
+
         toast.success(
           <>
             Order Completed

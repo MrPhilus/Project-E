@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const KicksContext = createContext();
 
@@ -45,6 +45,45 @@ const KicksContextProvider = ({ children }) => {
   const [selectedSize, setSelectedSize] = useState(0);
   const [discount, setDiscount] = useState(0);
 
+  // // cart controls
+  // const addToCart = (itemToAdd) => {
+  //   // Check if the item is already in the cart
+  //   const existingCartItem = cartItems.find(
+  //     (item) => item.id === itemToAdd.id && item.size === itemToAdd.size
+  //   );
+
+  //   if (existingCartItem) {
+  //     // Increment the quantity of the existing item
+  //     existingCartItem.quantity += 1;
+  //     setCartItems([...cartItems]);
+  //   } else {
+  //     // Add a new item to the cart with a quantity of 1
+  //     setCartItems([
+  //       ...cartItems,
+  //       { ...itemToAdd, quantity: 1, discount: discount },
+  //     ]);
+  //   }
+  //   console.log(cartItems);
+  //   sessionStorage.setItem("cartItems", JSON.stringify(cartItems));
+  // };
+
+  // const removeFromCart = (itemToRemove) => {
+  //   const updatedCartItems = cartItems.filter(
+  //     //checking if id and sizes are same before removing
+  //     (item) => item.id !== itemToRemove.id || item.size !== itemToRemove.size
+  //   );
+  //   setCartItems(updatedCartItems);
+  //   sessionStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+  // };
+
+  // useEffect(() => {
+  //   // Load cartItems from sessionStorage and parse it as JSON
+  //   const storedCartItems = sessionStorage.getItem("cartItems");
+  //   if (storedCartItems) {
+  //     setCartItems(JSON.parse(storedCartItems));
+  //   }
+  // }, []);
+
   // cart controls
   const addToCart = (itemToAdd) => {
     // Check if the item is already in the cart
@@ -54,23 +93,45 @@ const KicksContextProvider = ({ children }) => {
 
     if (existingCartItem) {
       // Increment the quantity of the existing item
-      existingCartItem.quantity += 1;
+      setCartItems((prevCartItems) => {
+        const updatedCartItems = prevCartItems.map((item) =>
+          item.id === itemToAdd.id && item.size === itemToAdd.size
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+        sessionStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+        return updatedCartItems;
+      });
     } else {
       // Add a new item to the cart with a quantity of 1
-      setCartItems([
-        ...cartItems,
-        { ...itemToAdd, quantity: 1, discount: discount },
-      ]);
+      setCartItems((prevCartItems) => {
+        const updatedCartItems = [
+          ...prevCartItems,
+          { ...itemToAdd, quantity: 1, discount: discount },
+        ];
+        sessionStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+        return updatedCartItems;
+      });
     }
   };
 
   const removeFromCart = (itemToRemove) => {
-    const updatedCartItems = cartItems.filter(
-      //checking if id and sizes are same before removing
-      (item) => item.id !== itemToRemove.id || item.size !== itemToRemove.size
-    );
-    setCartItems(updatedCartItems);
+    setCartItems((prevCartItems) => {
+      const updatedCartItems = prevCartItems.filter(
+        (item) => item.id !== itemToRemove.id || item.size !== itemToRemove.size
+      );
+      sessionStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+      return updatedCartItems;
+    });
   };
+
+  useEffect(() => {
+    // Load cartItems from sessionStorage and parse it as JSON
+    const storedCartItems = sessionStorage.getItem("cartItems");
+    if (storedCartItems) {
+      setCartItems(JSON.parse(storedCartItems));
+    }
+  }, []);
 
   // cart quantity controls
   const increaseQuantity = (item) => {

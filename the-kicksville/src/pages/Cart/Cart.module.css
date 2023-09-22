@@ -139,6 +139,17 @@ ul {
   font-size: 2.5vmax;
 }
 
+.thankYou {
+  display: flex;
+  height: 80vh;
+  align-items: center;
+  justify-content: center;
+}
+.thankYou > img {
+  width: 40vmax;
+  filter: grayscale();
+}
+
 @media only screen and (max-width: 520px) {
   .container {
     flex-wrap: wrap;
