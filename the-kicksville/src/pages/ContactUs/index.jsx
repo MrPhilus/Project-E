@@ -1,8 +1,9 @@
-import { useRef, useContext } from "react";
+import { useRef, useContext, useState } from "react";
 import emailjs from "@emailjs/browser";
 import styles from "./ContactUs.module.css";
 import { KicksContext } from "../../context/KicksContextProvider";
 import CustomButton from "../../components/CustomButton";
+import LoadScreen from "../../components/LoadingScreen";
 
 // notifications
 import { toast } from "react-toastify";
@@ -17,8 +18,11 @@ const ContactUs = () => {
     useContext(KicksContext);
   const form = useRef();
 
+  const [isSending, setIsSending] = useState(false);
+
   //email network processing with errors
   const sendEmail = () => {
+    setIsSending(true);
     emailjs.sendForm(serviceId, templateId, form.current, emailService).then(
       (result) => {
         toast.success(
@@ -43,9 +47,11 @@ const ContactUs = () => {
         );
 
         console.log(result.text);
+        setIsSending(false);
       },
       (error) => {
         console.log(error.text);
+        setIsSending(false);
         toast.error(
           <>
             Message Not Sent
@@ -106,74 +112,80 @@ const ContactUs = () => {
     <div className={styles.container}>
       <div>
         <ToastContainer />
-        <form
-          className={styles.formBox}
-          ref={form}
-          onSubmit={formik.handleSubmit}
-        >
-          <h1>Drop Us a Message</h1>
-
-          <div className={styles.inputArea}>
-            <label htmlFor="name">Name</label>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              className={
-                formik.touched.name && formik.errors.name
-                  ? styles.errorInput
-                  : ""
-              }
-            />
-            {formik.touched.name && formik.errors.name && (
-              <p className={styles.error}>{formik.errors.name}</p>
-            )}
+        {isSending ? (
+          <div className={styles.loadScreen}>
+            <LoadScreen />
           </div>
+        ) : (
+          <form
+            className={styles.formBox}
+            ref={form}
+            onSubmit={formik.handleSubmit}
+          >
+            <h1>Drop Us a Message</h1>
 
-          <div className={styles.inputArea}>
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              className={
-                formik.touched.email && formik.errors.email
-                  ? styles.errorInput
-                  : ""
-              }
-            />
-            {formik.touched.email && formik.errors.email && (
-              <p className={styles.error}>{formik.errors.email}</p>
-            )}
-          </div>
+            <div className={styles.inputArea}>
+              <label htmlFor="name">Name</label>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                value={formik.values.name}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                className={
+                  formik.touched.name && formik.errors.name
+                    ? styles.errorInput
+                    : ""
+                }
+              />
+              {formik.touched.name && formik.errors.name && (
+                <p className={styles.error}>{formik.errors.name}</p>
+              )}
+            </div>
 
-          <div className={styles.inputArea}>
-            <label htmlFor="message">Message</label>
-            <textarea
-              name="message"
-              id="message"
-              value={formik.values.message}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              className={
-                formik.touched.message && formik.errors.message
-                  ? styles.errorTextArea
-                  : ""
-              }
-            />
-            {formik.touched.message && formik.errors.message && (
-              <p className={styles.error}>{formik.errors.message}</p>
-            )}
-          </div>
+            <div className={styles.inputArea}>
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                className={
+                  formik.touched.email && formik.errors.email
+                    ? styles.errorInput
+                    : ""
+                }
+              />
+              {formik.touched.email && formik.errors.email && (
+                <p className={styles.error}>{formik.errors.email}</p>
+              )}
+            </div>
 
-          <CustomButton containerStyle={styles.button} buttonText={"Send"} />
-        </form>
+            <div className={styles.inputArea}>
+              <label htmlFor="message">Message</label>
+              <textarea
+                name="message"
+                id="message"
+                value={formik.values.message}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                className={
+                  formik.touched.message && formik.errors.message
+                    ? styles.errorTextArea
+                    : ""
+                }
+              />
+              {formik.touched.message && formik.errors.message && (
+                <p className={styles.error}>{formik.errors.message}</p>
+              )}
+            </div>
+
+            <CustomButton containerStyle={styles.button} buttonText={"Send"} />
+          </form>
+        )}
       </div>
     </div>
   );

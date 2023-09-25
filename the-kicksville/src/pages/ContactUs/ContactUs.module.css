@@ -80,3 +80,8 @@ textarea:hover {
   width: 70%;
   font-size: 1.3rem;
 }
+
+.loadScreen {
+  height: 100vh;
+  padding-top: 7rem;
+}
