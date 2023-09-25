@@ -91,7 +91,12 @@ const Cart = () => {
       .send(serviceId, templateIdTwo, emailParams, emailService)
       .then((response) => {
         setIsSubmitted(true);
+
+        // clear cart
         setCartItems([]);
+
+        // Clear the cartItems from session storage
+        sessionStorage.removeItem("cartItems");
 
         toast.success(
           <>

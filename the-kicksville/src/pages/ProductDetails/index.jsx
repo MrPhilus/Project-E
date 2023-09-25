@@ -189,7 +189,10 @@ const ProductDetails = () => {
               {selectedSneaker.details}
             </h3>
             <h3 style={{ fontSize: "2vmax" }}>${formattedPriceValue}</h3>
+            <p>Get {discount}% off!</p>
           </section>
+
+          <div></div>
         </div>
 
         <div className={styles.detailsMobi}>

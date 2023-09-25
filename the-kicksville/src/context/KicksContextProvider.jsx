@@ -45,69 +45,158 @@ const KicksContextProvider = ({ children }) => {
   const [selectedSize, setSelectedSize] = useState(0);
   const [discount, setDiscount] = useState(0);
 
-  // cart controls
+  // Cart controls
+  const updateCart = (updatedCartItems) => {
+    // Update cart items in session storage and state
+    sessionStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+    setCartItems(updatedCartItems);
+  };
+
   const addToCart = (itemToAdd) => {
-    // Check if the item is already in the cart
     const existingCartItem = cartItems.find(
       (item) => item.id === itemToAdd.id && item.size === itemToAdd.size
     );
 
     if (existingCartItem) {
-      // Increment the quantity of the existing item
+      // If the item is already in the cart, increment its quantity
       setCartItems((prevCartItems) => {
         const updatedCartItems = prevCartItems.map((item) =>
           item.id === itemToAdd.id && item.size === itemToAdd.size
-            ? { ...item, quantity: item.quantity + 1 }
+            ? {
+                ...item,
+                quantity: item.quantity + 1,
+                price: item.price + formattedPriceValue,
+              }
             : item
         );
-        sessionStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
-        return updatedCartItems;
+        updateCart(updatedCartItems);
       });
     } else {
-      // Add a new item to the cart with a quantity of 1
+      // If it's a new item, add it to the cart with a quantity of 1
       setCartItems((prevCartItems) => {
         const updatedCartItems = [
           ...prevCartItems,
           { ...itemToAdd, quantity: 1, discount: discount },
         ];
-        sessionStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
-        return updatedCartItems;
+        updateCart(updatedCartItems);
       });
     }
   };
 
   const removeFromCart = (itemToRemove) => {
+    // Remove the specified item from the cart
     setCartItems((prevCartItems) => {
       const updatedCartItems = prevCartItems.filter(
         (item) => item.id !== itemToRemove.id || item.size !== itemToRemove.size
       );
-      sessionStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+      updateCart(updatedCartItems);
       return updatedCartItems;
     });
   };
 
   useEffect(() => {
-    // Load cartItems from sessionStorage and parse it as JSON
+    // Load cartItems from sessionStorage when the component mounts
     const storedCartItems = sessionStorage.getItem("cartItems");
     if (storedCartItems) {
       setCartItems(JSON.parse(storedCartItems));
     }
   }, []);
 
-  // cart quantity controls
+  // Cart quantity controls
   const increaseQuantity = (item) => {
+    // Increase the quantity and update the cart
     item.quantity += 1;
     item.price += formattedPriceValue;
+    const updatedCartItems = [...cartItems];
+    sessionStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
     setCartItems([...cartItems]);
   };
 
   const reduceQuantity = (item) => {
     if (item.quantity > 1) {
+      // Decrease the quantity and update the cart
       item.quantity -= 1;
       item.price -= formattedPriceValue;
+      const updatedCartItems = [...cartItems];
+      sessionStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
       setCartItems([...cartItems]);
     }
   };
+
+  // // cart controls
+  // const updateCart = (updatedCartItems) => {
+  //   sessionStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+  //   setCartItems(updatedCartItems);
+  // };
+
+  // const addToCart = (itemToAdd) => {
+  //   // Check if the item is already in the cart
+  //   const existingCartItem = cartItems.find(
+  //     (item) => item.id === itemToAdd.id && item.size === itemToAdd.size
+  //   );
+
+  //   if (existingCartItem) {
+  //     // Increment the quantity of the existing item
+  //     setCartItems((prevCartItems) => {
+  //       const updatedCartItems = prevCartItems.map((item) =>
+  //         item.id === itemToAdd.id && item.size === itemToAdd.size
+  //           ? { ...item, quantity: item.quantity + 1 }
+  //           : item
+  //       );
+  //       // sessionStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+  //       // return updatedCartItems;
+  //       updateCart(updatedCartItems);
+  //     });
+  //   } else {
+  //     // Add a new item to the cart with a quantity of 1
+  //     setCartItems((prevCartItems) => {
+  //       const updatedCartItems = [
+  //         ...prevCartItems,
+  //         { ...itemToAdd, quantity: 1, discount: discount },
+  //       ];
+  //       // sessionStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+  //       // return updatedCartItems;
+  //       updateCart(updatedCartItems);
+  //     });
+  //   }
+  // };
+
+  // const removeFromCart = (itemToRemove) => {
+  //   setCartItems((prevCartItems) => {
+  //     const updatedCartItems = prevCartItems.filter(
+  //       (item) => item.id !== itemToRemove.id || item.size !== itemToRemove.size
+  //     );
+  //     sessionStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+  //     return updatedCartItems;
+  //   });
+  // };
+
+  // useEffect(() => {
+  //   // Load cartItems from sessionStorage and parse it as JSON
+  //   const storedCartItems = sessionStorage.getItem("cartItems");
+  //   if (storedCartItems) {
+  //     setCartItems(JSON.parse(storedCartItems));
+  //   }
+  // }, []);
+
+  // // cart quantity controls
+  // const increaseQuantity = (item) => {
+  //   item.quantity += 1;
+  //   item.price += formattedPriceValue;
+  //   const updatedCartItems = [...cartItems];
+  //   sessionStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+  //   setCartItems([...cartItems]);
+  // };
+
+  // const reduceQuantity = (item) => {
+  //   if (item.quantity > 1) {
+  //     item.quantity -= 1;
+  //     item.price -= formattedPriceValue;
+  //     const updatedCartItems = [...cartItems];
+  //     sessionStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+  //     setCartItems([...cartItems]);
+  //   }
+  // };
 
   // price conversion from cents
   const formattedPriceValue = parseFloat(
