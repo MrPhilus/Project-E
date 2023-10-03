@@ -115,5 +115,6 @@
     padding: 1rem;
     padding-top: 7rem;
     row-gap: 80px;
+    overflow-y: auto;
   }
 }

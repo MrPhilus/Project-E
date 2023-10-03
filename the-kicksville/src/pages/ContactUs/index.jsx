@@ -16,6 +16,7 @@ import { useFormik } from "formik";
 const ContactUs = () => {
   const { input, emailService, serviceId, templateId } =
     useContext(KicksContext);
+
   const form = useRef();
 
   const [isSending, setIsSending] = useState(false);
